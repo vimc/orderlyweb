@@ -80,7 +80,7 @@ test_that("download", {
   cl <- test_orderlyweb()
   d <- cl$report_list()
 
-  name <- "minimal"
+  name <- "global"
   version <- d$latest_version[d$name == name]
 
   zip <- cl$report_download(name, version, progress = FALSE)
@@ -90,7 +90,7 @@ test_that("download", {
   expect_equal(dir(path), version)
   expect_setequal(
     dir(file.path(path, version)),
-    c("mygraph.png", "orderly.yml", "orderly_run.rds", "script.R"))
+    c("data.csv", "orderly.yml", "orderly_run.rds", "out.rds", "script.R"))
 })
 
 
