@@ -30,6 +30,11 @@ vcapply <- function(X, FUN, ...) {
 }
 
 
+vlapply <- function(X, FUN, ...) {
+  vapply(X, FUN, logical(1), ...)
+}
+
+
 data_frame <- function(...) {
   data.frame(..., stringsAsFactors = FALSE)
 }
@@ -37,4 +42,14 @@ data_frame <- function(...) {
 
 squote <- function(x) {
   sprintf("'%s'", x)
+}
+
+
+list_to_character <- function(x, ...) {
+  vcapply(x, identity, ...)
+}
+
+
+encode_path <- function (x) {
+  gsub("[/\\\\]", ":", x)
 }

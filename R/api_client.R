@@ -47,7 +47,7 @@ R6_orderlyweb_api_client <- R6::R6Class(
     },
 
     POST = function(...) {
-      browser()
+      self$request(httr::POST, ...)
     },
 
     request = function(verb, path, ..., download = NULL) {
@@ -157,7 +157,12 @@ orderlyweb_api_error <- function(msg, code, errors) {
 
 orderlyweb_download <- function(dest, progress, accept) {
   if (is.null(dest)) {
-    dest <- tempfile()
+    ext <- switch(accept,
+                  zip = ".zip",
+                  csv = ".csv",
+                  rds = ".rds",
+                  "")
+    dest <- tempfile(fileext = ext)
   }
   assert_scalar_character(dest)
   assert_scalar_logical(progress)
