@@ -23,14 +23,14 @@ report_run_wait <- function(path, name, key, client, timeout, poll, open,
         stop("timeout reached")
       } else {
         message("timeout reached")
-        return(obj)
+        stop("FIXME") # should just remove this path...
       }
     }
 
     Sys.sleep(if (ans$status == "queued") max(poll, 1) else poll)
   }
 
-  report_wait_cleanup(name, ans, stop_on_error, open, client)
+  report_wait_cleanup(name, ans, progress, stop_on_error, open, client)
 }
 
 
@@ -108,7 +108,8 @@ report_wait_progress <- function(key, progress) {
 }
 
 
-report_wait_cleanup <- function(name, ans, stop_on_error, open, client) {
+report_wait_cleanup <- function(name, ans, progress, stop_on_error,
+                                open, client) {
   if (is.null(ans$output)) {
     ans <- client$report_run_status(ans$key, TRUE)
   }
