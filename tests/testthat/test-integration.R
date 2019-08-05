@@ -216,3 +216,12 @@ test_that("publish", {
   expect_false(cl$report_publish(name, version, FALSE))
   expect_false(cl$report_metadata(name, version)$published)
 })
+
+
+test_that("git", {
+  cl <- test_orderlyweb()
+  st <- cl$git_status()
+  expect_equal(st$branch, "master")
+  expect_error(cl$git_pull(), NA)
+  expect_error(cl$git_fetch(), NA)
+})
