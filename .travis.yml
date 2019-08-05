@@ -1,6 +1,11 @@
 language: r
 cache: packages
+services:
+  - docker
 r_packages:
   - covr
 after_success:
   - Rscript -e 'covr::codecov()'
+before_script:
+  - pip3 install orderly-web
+  - orderly-web start inst/config
