@@ -10,6 +10,7 @@ addons:
   apt:
     packages:
       - python3-pip
+      - python3-setuptools
 before_script:
   - pip3 install orderly-web
   - orderly-web start inst/config
