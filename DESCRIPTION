@@ -15,6 +15,10 @@ Description: Client for 'OrderlyWeb' for use from the 'orderly'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports:
+    R6,
+    httr,
+    jsonlite
 Suggests:
     testthat
 RoxygenNote: 6.1.1
