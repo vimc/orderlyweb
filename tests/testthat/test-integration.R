@@ -31,6 +31,18 @@ test_that("can list report versions", {
 })
 
 
+test_that("missing report version behaviour", {
+  cl <- test_orderlyweb()
+  expect_error(
+    cl$report_versions("report-that-does-not-exist"),
+    "Unknown report : 'report-that-does-not-exist'",
+    class = "orderlyweb_api_error")
+  expect_equal(
+    cl$report_versions("report-that-does-not-exist", FALSE),
+    character(0))
+})
+
+
 test_that("can fetch changelog", {
   cl <- test_orderlyweb()
   v <- cl$report_versions("changelog")
@@ -79,6 +91,20 @@ test_that("download", {
   expect_setequal(
     dir(file.path(path, version)),
     c("mygraph.png", "orderly.yml", "orderly_run.rds", "script.R"))
+})
+
+
+test_that("download progress", {
+  cl <- test_orderlyweb()
+  d <- cl$report_list()
+
+  name <- "minimal"
+  version <- d$latest_version[d$name == name]
+
+  out <- capture.output(
+    zip <- cl$report_download(name, version, progress = TRUE))
+  expect_is(out, "character")
+  expect_equal(out[[length(out)]], "")
 })
 
 
