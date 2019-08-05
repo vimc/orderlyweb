@@ -1,6 +1,6 @@
 has_orderlyweb_server <- function() {
   if (!nzchar(Sys.getenv("ORDERLYWEB_TEST_TOKEN", ""))) {
-    return(FALS)
+    return(FALSE)
   }
   TRUE
 }

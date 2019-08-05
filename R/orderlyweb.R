@@ -20,35 +20,21 @@ R6_orderlyweb <- R6::R6Class(
 
     report_list = function() {
       res <- self$api_client$GET("/reports/")
-      if (length(res) == 0L) {
-        name <- latest_version <- display_name <- character(0)
-      } else {
-        name <- vcapply(res, "[[", "name")
-        display_name <- vcapply(
-          res, function(x) x$display_name %||% NA_character_)
-        latest_version <- vcapply(res, "[[", "latest_version")
-      }
+      name <- vcapply(res, "[[", "name")
+      display_name <- vcapply(
+        res, function(x) x$display_name %||% NA_character_)
+      latest_version <- vcapply(res, "[[", "latest_version")
       data_frame(name = name,
                  display_name = display_name,
                  latest_version = latest_version)
     },
 
     report_versions = function(name, error_if_missing = TRUE) {
-      allow_missing <- !error_if_missing
+      assert_scalar_logical(error_if_missing)
       res <- tryCatch(
         self$api_client$GET(sprintf("/reports/%s/", name)),
         error = identity)
-
-      if (inherits(res, "character")) {
-        return(res)
-      } else if (allow_missing &&
-                 inherits(res, "orderlyweb_api_error") &&
-                 length(res$errors) == 1L &&
-                 res$errors[[1]]$code == "unknown-report") {
-        return(character(0))
-      } else {
-        stop(res)
-      }
+      report_versions_return(res, error_if_missing)
     },
 
     report_changelog = function(name, version = NULL) {
@@ -102,7 +88,6 @@ R6_orderlyweb <- R6::R6Class(
 
     report_resource_download = function(name, version, filename,
                                         dest = NULL, progress = TRUE) {
-
       filename_enc <- encode_path(filename)
       path <- sprintf("/reports/%s/versions/%s/resources/%s/",
                       name, version, filename_enc)
@@ -133,13 +118,9 @@ R6_orderlyweb <- R6::R6Class(
       self$api_client$GET(path, download = download)
     },
 
-    report_publish = function(name, version, value = NULL) {
-      if (is.null(value)) {
-        query <- NULL
-      } else {
-        assert_scalar_logical(value)
-        query <- list(value = value)
-      }
+    report_publish = function(name, version, value = TRUE) {
+      assert_scalar_logical(value)
+      query <- list(value = value)
       self$api_client$POST(
         sprintf("/reports/%s/versions/%s/publish/", name, version),
         query = query)
@@ -171,3 +152,18 @@ R6_orderlyweb <- R6::R6Class(
       self$api_client$POST("/reports/git/fetch/")
     }
   ))
+
+
+report_versions_return <- function(res, error_if_missing) {
+  allow_missing <- !error_if_missing
+  if (inherits(res, "character")) {
+    return(res)
+  } else if (allow_missing &&
+             inherits(res, "orderlyweb_api_error") &&
+             length(res$errors) == 1L &&
+             res$errors[[1]]$code == "unknown-report") {
+    return(character(0))
+  } else {
+    stop(res)
+  }
+}
