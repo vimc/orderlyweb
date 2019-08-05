@@ -19,7 +19,8 @@ Imports:
     R6,
     httr,
     jsonlite,
-    progress
+    progress,
+    orderly
 Suggests:
     testthat
 RoxygenNote: 6.1.1
