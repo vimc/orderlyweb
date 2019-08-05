@@ -1,7 +1,7 @@
 context("report run")
 
 test_that("progress - no output", {
-  p <- report_wait_progress("key", TRUE)
+  p <- report_wait_progress("key", TRUE, force = TRUE)
   id <- "20190805-153610-eebad7d5"
   expect_is(p, "function")
   msg <- capture_messages(
@@ -11,7 +11,7 @@ test_that("progress - no output", {
 
 
 test_that("progress - with output", {
-  p <- report_wait_progress("key", TRUE)
+  p <- report_wait_progress("key", TRUE, force = TRUE)
   id <- "20190805-153610-eebad7d5"
   expect_is(p, "function")
   msg <- capture_messages(
@@ -33,7 +33,7 @@ test_that("progress - with output", {
 
 
 test_that("progress - queued", {
-  p <- report_wait_progress("key", TRUE)
+  p <- report_wait_progress("key", TRUE, force = TRUE)
   id <- "20190805-153610-eebad7d5"
   expect_is(p, "function")
   msg <- capture_messages(

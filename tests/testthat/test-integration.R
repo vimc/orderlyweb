@@ -283,22 +283,6 @@ test_that("run: simple", {
 })
 
 
-test_that("run: queued", {
-  cl <- test_orderlyweb()
-  ans1 <- cl$report_run("slow1", wait = FALSE)
-  ans2 <- cl$report_run("minimal", wait = FALSE)
-
-  cl <- test_orderlyweb()
-  ans1 <- cl$report_run("slow1", wait = FALSE)
-  ans2 <- cl$report_run("minimal", wait = FALSE)
-  msg <- capture_messages(ans3 <- cl$report_run("minimal", poll = 0.1))
-  msg <- unlist(strsplit(msg, "\n", fixed = TRUE))
-
-  expect_match(msg, "queued.*: slow1 < minimal", all = FALSE)
-  expect_match(msg, "^id:", all = FALSE)
-})
-
-
 test_that("run: get handle", {
   cl <- test_orderlyweb()
   ans <- cl$report_run("minimal", wait = FALSE)

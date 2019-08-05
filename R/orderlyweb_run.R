@@ -53,13 +53,13 @@ report_run_query <- function(ref, update, timeout) {
 }
 
 
-report_wait_progress <- function(key, progress) {
+report_wait_progress <- function(key, progress, force = FALSE) {
   if (!progress) {
     return(function(...) {})
   }
 
   fmt <- sprintf("[:spin] (%s) :elapsed :status", key)
-  p <- progress::progress_bar$new(fmt, NA, show_after = 0)
+  p <- progress::progress_bar$new(fmt, NA, show_after = 0, force = force)
   prev_output <- list(stderr = NULL, stdout = NULL)
   w <- getOption("width", 80L)
 
