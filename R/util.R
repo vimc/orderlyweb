@@ -53,3 +53,26 @@ list_to_character <- function(x, ...) {
 encode_path <- function (x) {
   gsub("[/\\\\]", ":", x)
 }
+
+
+clear_progress_bar <- function(p) {
+  private <- environment(p$tick)$private
+  if (nchar(private$last_draw) > 0) {
+    str <- paste0(c("\r", rep(" ", private$width)), collapse = "")
+    message(str, appendLF = FALSE)
+  }
+  message("\r", appendLF = FALSE)
+}
+
+
+trim_string <- function (s, w, elipsis = " ...") {
+  if (nchar(s) > w) {
+    s <- paste0(substr(s, 1L, w - nchar(elipsis)), elipsis)
+  }
+  s
+}
+
+
+format_output <- function(output) {
+  paste(sprintf("%s\n", c(output$stderr, output$stdout)), collapse = "")
+}

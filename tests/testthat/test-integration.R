@@ -251,3 +251,60 @@ test_that("git", {
   expect_error(cl$git_pull(), NA)
   expect_error(cl$git_fetch(), NA)
 })
+
+
+test_that("run: simple", {
+  cl <- test_orderlyweb()
+  res <- cl$report_run("minimal", poll = 0.1, progress = FALSE)
+
+  expect_equal(names(res), c("name", "id", "status", "output", "url"))
+  expect_equal(res$name, "minimal")
+  expect_equal(res$status, "success")
+  expect_setequal(names(res$output), c("stderr", "stdout"))
+  expect_equal(res$url,
+               paste0("http://localhost:8888/reports/minimal/", res$id))
+  expect_match(res$output$stderr, "[ name       ]  minimal",
+               fixed = TRUE, all = FALSE)
+})
+
+
+test_that("run: simple", {
+  cl <- test_orderlyweb()
+  res <- cl$report_run("minimal", poll = 0.1, progress = FALSE)
+
+  expect_equal(names(res), c("name", "id", "status", "output", "url"))
+  expect_equal(res$name, "minimal")
+  expect_equal(res$status, "success")
+  expect_setequal(names(res$output), c("stderr", "stdout"))
+  expect_equal(res$url,
+               paste0("http://localhost:8888/reports/minimal/", res$id))
+  expect_match(res$output$stderr, "[ name       ]  minimal",
+               fixed = TRUE, all = FALSE)
+})
+
+
+test_that("run: queued", {
+  cl <- test_orderlyweb()
+  ans1 <- cl$report_run("slow1", wait = FALSE)
+  ans2 <- cl$report_run("minimal", wait = FALSE)
+
+  cl <- test_orderlyweb()
+  ans1 <- cl$report_run("slow1", wait = FALSE)
+  ans2 <- cl$report_run("minimal", wait = FALSE)
+  msg <- capture_messages(ans3 <- cl$report_run("minimal", poll = 0.1))
+  msg <- unlist(strsplit(msg, "\n", fixed = TRUE))
+
+  expect_match(msg, "queued.*: slow1 < minimal", all = FALSE)
+  expect_match(msg, "^id:", all = FALSE)
+})
+
+
+test_that("run: get handle", {
+  cl <- test_orderlyweb()
+  ans <- cl$report_run("minimal", wait = FALSE)
+  Sys.sleep(1)
+  expect_equal(cl$report_run_status(ans)$status, "success")
+  expect_equal(cl$report_run_status(ans$key)$status, "success")
+  res <- cl$report_run_wait(ans, progress = FALSE)
+  expect_equal(res$name, "minimal")
+})

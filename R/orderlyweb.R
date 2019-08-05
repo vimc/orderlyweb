@@ -110,6 +110,53 @@ R6_orderlyweb <- R6::R6Class(
       self$api_client$GET(path, query = query, download = download)
     },
 
+    report_run = function(name, parameters = NULL, ref = NULL,
+                          update = TRUE, timeout = NULL, wait = Inf,
+                          poll = 0.5, open = FALSE,
+                          stop_on_error = FALSE,
+                          stop_on_timeout = TRUE, progress = TRUE,
+                          output = TRUE) {
+      if (!is.null(parameters)) {
+        stop("parameters not yet supported")
+      }
+      query <- report_run_query(ref, update, timeout)
+      res <- self$api_client$POST(sprintf("/reports/%s/run/", name),
+                                  query = query)
+      class(res) <- "orderlyweb_run"
+
+      if (wait > 0) {
+        self$report_run_wait(res, timeout = wait, poll = poll, open = open,
+                             stop_on_error = stop_on_error,
+                             stop_on_timeout = stop_on_timeout,
+                             progress = progress)
+      } else {
+        res
+      }
+    },
+
+    report_run_status = function(key, output = FALSE) {
+      if (inherits(key, "orderlyweb_run")) {
+        key <- key$key
+      }
+      path <- sprintf("/reports/%s/status/", key)
+      query <- if (output) list(output = TRUE) else NULL
+      self$api_client$GET(path, query = query)
+    },
+
+    report_run_wait = function(x, timeout = Inf, poll = 0.5,
+                               open = FALSE, stop_on_error = FALSE,
+                               stop_on_timeout = TRUE, progress = TRUE,
+                               output = TRUE) {
+      if (!inherits(x, "orderlyweb_run")) {
+        stop("Expected an 'orderlyweb_run' object")
+      }
+      report_run_wait(x$path, x$name, x$key, self,
+                      timeout = timeout, poll = poll, open = open,
+                      stop_on_error = stop_on_error,
+                      stop_on_timeout = stop_on_timeout,
+                      progress = progress)
+    },
+
     data_download = function(hash, csv = FALSE, dest = NULL,
                              progress = TRUE) {
       path <- sprintf("/data/%s/%s", if (csv) "csv" else "rds", hash)

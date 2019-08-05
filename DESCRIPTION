@@ -18,7 +18,8 @@ LazyData: true
 Imports:
     R6,
     httr,
-    jsonlite
+    jsonlite,
+    progress
 Suggests:
     testthat
 RoxygenNote: 6.1.1
