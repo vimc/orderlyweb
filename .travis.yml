@@ -13,3 +13,4 @@ addons:
 before_script:
   - pip3 install orderly-web
   - orderly-web start inst/config
+dist: xenial
