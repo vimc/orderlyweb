@@ -1,3 +1,34 @@
+##' Create a low-level HTTP API client for use with OrderlyWeb.
+##'
+##' @title Create a low-level OrderlyWeb client
+##'
+##' @param hostname Fully qualified hostname for the OrderlyWeb instance
+##'
+##' @param port Port to use
+##'
+##' @param token Your application token for authentication
+##'
+##' @param https Optional logical, indicating if this is an https
+##'   connection - this should be \code{TRUE} in all production
+##'   settings or credentials will be sent in the clear!
+##'
+##' @param prefix A prefix, if your OrderlyWeb server is mounted at a
+##'   path within some larger website.
+##'
+##' @param api_version The API version to request - this should be
+##'   left as 1.
+##'
+##' @param insecure Avoid SSL certificate testing - this is completely
+##'   insecure (as bad as http) and exists only for testing.
+##'
+##' @param verbose Be verbose in all http exchanges.  This will be
+##'   very noisy.
+##'
+##' @export
+##' @examples
+##' cl <- orderlyweb::orderlyweb_api_client(host = "example.com", port = 443,
+##'                                         token = "mytoken")
+##' cl$is_authorised()
 orderlyweb_api_client <- function(hostname, port, token, https = TRUE,
                                   prefix = NULL, api_version = 1,
                                   insecure = FALSE, verbose = FALSE) {

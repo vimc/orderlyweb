@@ -1,3 +1,22 @@
+##' Create an orderlyweb object, for interaction with the OrderlyWeb
+##' API at a high level.  For low level access, see
+##' \code{\link{orderlyweb_api_client}} or the \code{$api_client}
+##' field of the created object.
+##'
+##' @title Create an orderlyweb object
+##'
+##' @param ... Arguments passed through to
+##'   \code{\link{orderlyweb_api_client}}
+##'
+##' @param api_client A pre-constructed
+##'   \code{\link{orderlyweb_api_client}}, in which case \code{...} is
+##'   ignored
+##'
+##' @export
+##' @examples
+##' cl <- orderlyweb::orderlyweb(host = "example.com", port = 443,
+##'                              token = "mytoken")
+##' cl$api_client$is_authorised()
 orderlyweb <- function(..., api_client = NULL) {
   if (is.null(api_client)) {
     api_client <- orderlyweb_api_client(...)

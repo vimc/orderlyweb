@@ -1,3 +1,12 @@
+##' Implements an orderly "remote" using OrderlyWeb as a backend.  Use
+##' this within an \code{orderly_config.yml} configuration.
+##'
+##' @title Create orderly remote
+##' @inheritParams orderlyweb_api_client
+##' @export
+##' @examples
+##' remote <- orderlyweb::orderlyweb_remote("example.com", 443, "mytoken")
+##' remote
 orderlyweb_remote <- function(hostname, port, token, https = TRUE,
                               prefix = NULL) {
   R6_orderlyweb_remote$new(hostname, port, token, https, prefix)
