@@ -17,3 +17,15 @@ To install `orderly-web` (the command line tool) use `pip3 install orderly-web`
 A token is also needed to login with github; that can be found in the `vimc` vault as` secret/vimc-robot/vault-token` and should be available as the environment variable `ORDERLYWEB_TEST_TOKEN` (this is available on travis as an encrypted environment variable).
 
 To stop the server, use `orderly-web stop inst/config --volumes --kill`
+
+## Installation
+
+```r
+# install.packages("drat")
+drat:::add("vimc")
+install.packages("orderly")
+```
+
+## License
+
+MIT © Imperial College of Science, Technology and Medicine
