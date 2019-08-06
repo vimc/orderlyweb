@@ -93,3 +93,25 @@ test_that("cleanup", {
     list(name = "name", id = "id", status = "killed", output = ans$output,
          url = NULL))
 })
+
+
+test_that("cleanup - open url", {
+  skip_on_cran()
+  skip_if_not_installed("mockery")
+
+  client <- list(api_client =
+                   list(url = list(www = "https://example.com/reports")))
+  ans <- list(status = "success",
+              version = "id",
+              output = list(stderr = "stderr", stdout = "stdout"))
+
+  m <- mockery::mock()
+  mockery::stub(report_wait_cleanup, "utils::browseURL", m)
+  res1 <- report_wait_cleanup("name", ans, FALSE, TRUE, FALSE, client)
+  expect_equal(res1$url, "https://example.com/reports/reports/name/id")
+  mockery::expect_called(m, 0)
+
+  res2 <- report_wait_cleanup("name", ans, FALSE, TRUE, TRUE, client)
+  mockery::expect_args(m, 1, res2$url)
+  expect_equal(res1, res2)
+})
