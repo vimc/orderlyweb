@@ -10,7 +10,7 @@ skip_if_no_orderlyweb_server <- function() {
   testthat::skip_on_cran()
 
   if (!has_orderlyweb_server()) {
-    testtthat::skip("No orderlyweb server")
+    testthat::skip("No orderlyweb server")
   }
 }
 
