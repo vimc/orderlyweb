@@ -40,11 +40,6 @@ data_frame <- function(...) {
 }
 
 
-squote <- function(x) {
-  sprintf("'%s'", x)
-}
-
-
 list_to_character <- function(x, ...) {
   vcapply(x, identity, ...)
 }
