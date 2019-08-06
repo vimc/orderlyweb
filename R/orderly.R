@@ -34,13 +34,11 @@ R6_orderlyweb_remote <- R6::R6Class(
 
     run = function(name, parameters = NULL, ref = NULL, timeout = NULL,
                    wait = 1000, poll = 1, progress = TRUE,
-                   stop_on_error = TRUE, stop_on_timeout = TRUE,
-                   open = FALSE) {
+                   stop_on_error = TRUE, open = FALSE) {
       private$client$report_run(name = name, parameters = parameters,
                                 ref = ref, timeout = timeout, wait = wait,
                                 poll = poll, open = open,
                                 stop_on_error = stop_on_error,
-                                stop_on_timeout = stop_on_timeout,
                                 progress = progress)
     }
   ))

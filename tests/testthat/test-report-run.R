@@ -7,6 +7,10 @@ test_that("progress - no output", {
   msg <- capture_messages(
     p(list(status = "running", version = id, output = NULL)))
   expect_match(msg, "running: 20190805-153610-eebad7d5", all = FALSE)
+
+  msg <- capture_messages(
+    p(list(status = "success", version = id, output = NULL), TRUE))
+  expect_match(msg, "^\r\\s*$")
 })
 
 
@@ -45,4 +49,22 @@ test_that("progress - queued", {
     p(list(status = "queued", version = id,
            output = list(stdout = c("running:key2:name2")))))
   expect_equal(msg[[3]], "[\\] (key)  0s queued (1): name2")
+})
+
+
+test_that("query", {
+  expect_null(
+    report_run_query(NULL, TRUE, NULL))
+  expect_equal(
+    report_run_query("ref", FALSE, NULL),
+    list(ref = "ref", update = "false"))
+  expect_equal(
+    report_run_query("ref", TRUE, NULL),
+    list(ref = "ref"))
+  expect_equal(
+    report_run_query("ref", TRUE, 1),
+    list(ref = "ref", timeout = "1"))
+  expect_equal(
+    report_run_query(NULL, TRUE, 1),
+    list(timeout = "1"))
 })

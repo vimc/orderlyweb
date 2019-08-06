@@ -112,9 +112,7 @@ R6_orderlyweb <- R6::R6Class(
     report_run = function(name, parameters = NULL, ref = NULL,
                           update = TRUE, timeout = NULL, wait = Inf,
                           poll = 0.5, open = FALSE,
-                          stop_on_error = FALSE,
-                          stop_on_timeout = TRUE, progress = TRUE,
-                          output = TRUE) {
+                          stop_on_error = FALSE, progress = TRUE) {
       if (!is.null(parameters)) {
         stop("parameters not yet supported")
       }
@@ -126,7 +124,6 @@ R6_orderlyweb <- R6::R6Class(
       if (wait > 0) {
         self$report_run_wait(res, timeout = wait, poll = poll, open = open,
                              stop_on_error = stop_on_error,
-                             stop_on_timeout = stop_on_timeout,
                              progress = progress)
       } else {
         res

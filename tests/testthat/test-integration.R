@@ -275,9 +275,37 @@ test_that("run: simple", {
 test_that("run: get handle", {
   cl <- test_orderlyweb()
   ans <- cl$report_run("minimal", wait = FALSE)
+  expect_is(ans, "orderlyweb_run")
   Sys.sleep(1)
   expect_equal(cl$report_run_status(ans)$status, "success")
   expect_equal(cl$report_run_status(ans$key)$status, "success")
   res <- cl$report_run_wait(ans, progress = FALSE)
   expect_equal(res$name, "minimal")
+
+  msg <- capture_messages(cl$report_run_wait(ans, progress = TRUE))
+  expect_equal(msg[[1]],
+               sprintf("running report 'minimal' as '%s'\n", ans$key))
+})
+
+
+test_that("parameters are not supported", {
+  cl <- test_orderlyweb()
+  expect_error(cl$report_run("minimal", parameters = list(a = 1)),
+               "parameters not yet supported")
+})
+
+
+test_that("wait validation", {
+  cl <- test_orderlyweb()
+  expect_error(cl$report_run_wait(TRUE),
+               "Expected an 'orderlyweb_run' object")
+})
+
+
+test_that("timeout", {
+  cl <- test_orderlyweb()
+  ans <- cl$report_run("slow1", wait = FALSE)
+  expect_error(
+    cl$report_run_wait(ans, timeout = 0, poll = 0, progress = FALSE),
+    "timeout reached")
 })
