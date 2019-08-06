@@ -116,9 +116,9 @@ report_wait_cleanup <- function(name, ans, progress, stop_on_error,
       cat(format_output(ans$output))
     }
     if (ans$status == "killed") {
-      stop("job killed by remote server")
+      stop("job killed by remote server", call. = FALSE)
     } else {
-      stop("Report has failed: see above for details")
+      stop("Report has failed: see above for details", call. = FALSE)
     }
   }
 

@@ -68,3 +68,28 @@ test_that("query", {
     report_run_query(NULL, TRUE, 1),
     list(timeout = "1"))
 })
+
+
+test_that("cleanup", {
+  client <- NULL
+  ans <- list(status = "error",
+              version = "id",
+              output = list(stderr = "stderr", stdout = "stdout"))
+  out <- capture_output(
+    expect_error(
+      report_wait_cleanup("name", ans, FALSE, TRUE, FALSE, client),
+      "Report has failed: see above for details"))
+  expect_equal(out, trimws(format_output(ans$output)))
+
+  ans$status <- "killed"
+  out <- capture_output(
+    expect_error(
+      report_wait_cleanup("name", ans, FALSE, TRUE, FALSE, client),
+      "job killed by remote server"))
+  expect_equal(out, trimws(format_output(ans$output)))
+
+  expect_equal(
+    report_wait_cleanup("name", ans, FALSE, FALSE, FALSE, client),
+    list(name = "name", id = "id", status = "killed", output = ans$output,
+         url = NULL))
+})
