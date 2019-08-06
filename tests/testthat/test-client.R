@@ -20,7 +20,7 @@ test_that("Authentication logic", {
 
 test_that("API client must use absolute paths", {
   cl <- test_orderlyweb_api_client()
-  expect_error(cl$GET("reports")
+  expect_error(cl$GET("reports"),
                "Expected an absolute path")
 })
 
