@@ -276,7 +276,7 @@ test_that("run: get handle", {
   cl <- test_orderlyweb()
   ans <- cl$report_run("minimal", wait = FALSE)
   expect_is(ans, "orderlyweb_run")
-  Sys.sleep(1)
+  Sys.sleep(2)
   expect_equal(cl$report_run_status(ans)$status, "success")
   expect_equal(cl$report_run_status(ans$key)$status, "success")
   res <- cl$report_run_wait(ans, progress = FALSE)
