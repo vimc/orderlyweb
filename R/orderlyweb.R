@@ -104,10 +104,9 @@ R6_orderlyweb <- R6::R6Class(
     report_data_download = function(name, version, hash, csv = FALSE,
                                     dest = NULL, progress = TRUE) {
       path <- sprintf("/reports/%s/versions/%s/data/%s", name, version, hash)
-      query <- list(type = if (csv) "csv" else "rds")
-      accept <- if (csv) "csv" else "binary"
-      download <- orderlyweb_download(dest, progress, accept)
-      self$api_client$GET(path, query = query, download = download)
+      type <- if (csv) "csv" else "rds"
+      download <- orderlyweb_download(dest, progress, type)
+      self$api_client$GET(path, query = list(type = type), download = download)
     },
 
     report_run = function(name, parameters = NULL, ref = NULL,

@@ -175,8 +175,8 @@ orderlyweb_download <- function(dest, progress, accept) {
 
 orderlyweb_accept <- function(accept) {
   switch(accept,
-         json = httr::accept_json(),
          binary = httr::accept("application/octet-stream"),
+         rds = httr::accept("application/octet-stream"),
          zip = httr::accept("application/zip"),
          csv = httr::accept("text/csv"),
          stop("unknown type ", accept))
