@@ -131,12 +131,14 @@ orderlyweb_api_client_response <- function(r, download) {
       res <- response_to_json(r)
       stop(orderlyweb_api_error(res$errors[[1]]$message, code, res$errors))
     }
+    ## This should never really be used - it's just for when things go
+    ## really pear shaped.
     if (code == 404) {
       stop("endpoint or resource not found")
     } else if (code == 403) {
       stop("endpoint or resource not found, or you do not have permission")
     } else {
-      stop("montagu returned error code ", code)
+      stop("server returned error code ", code)
     }
   }
 

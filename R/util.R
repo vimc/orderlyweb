@@ -20,7 +20,7 @@ response_to_json <- function(r) {
 
 
 is_json_response <- function(r) {
-  type <- r$headers[["Content-Type"]]
+  type <- httr::headers(r)[["Content-Type"]]
   httr::parse_media(type)$complete == "application/json"
 }
 

@@ -47,3 +47,30 @@ test_that("API client URL ignores empty prefix", {
   expect_equal(
     orderlyweb_api_client_url("host", 443, TRUE, NULL, 1), cmp)
 })
+
+
+test_that("Handle unexpcted errors", {
+  testthat::skip_on_cran()
+  testthat::skip_if_offline()
+  r <- httr::GET("https://httpbin.org/status/404")
+  expect_error(orderlyweb_api_client_response(r, NULL),
+               "endpoint or resource not found")
+  r <- httr::GET("https://httpbin.org/status/403")
+  expect_error(orderlyweb_api_client_response(r, NULL),
+               "endpoint or resource not found, or you do not have permission")
+  r <- httr::GET("https://httpbin.org/status/500")
+  expect_error(orderlyweb_api_client_response(r, NULL),
+               "server returned error code 500")
+})
+
+
+test_that("download type switching", {
+  expect_equal(orderlyweb_accept("rds"),
+               httr::accept("application/octet-stream"))
+  expect_equal(orderlyweb_accept("zip"),
+               httr::accept("application/zip"))
+  expect_equal(orderlyweb_accept("csv"),
+               httr::accept("text/csv"))
+  expect_error(orderlyweb_accept("xlsx"),
+               "unknown type xlsx")
+})
