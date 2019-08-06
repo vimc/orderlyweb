@@ -141,15 +141,13 @@ R6_orderlyweb <- R6::R6Class(
 
     report_run_wait = function(x, timeout = Inf, poll = 0.5,
                                open = FALSE, stop_on_error = FALSE,
-                               stop_on_timeout = TRUE, progress = TRUE,
-                               output = TRUE) {
+                               progress = TRUE, output = TRUE) {
       if (!inherits(x, "orderlyweb_run")) {
         stop("Expected an 'orderlyweb_run' object")
       }
       report_run_wait(x$path, x$name, x$key, self,
                       timeout = timeout, poll = poll, open = open,
                       stop_on_error = stop_on_error,
-                      stop_on_timeout = stop_on_timeout,
                       progress = progress)
     },
 
