@@ -67,6 +67,8 @@ test_that("Handle unexpcted errors", {
 test_that("download type switching", {
   expect_equal(orderlyweb_accept("rds"),
                httr::accept("application/octet-stream"))
+  expect_equal(orderlyweb_accept("binary"),
+               httr::accept("application/octet-stream"))
   expect_equal(orderlyweb_accept("zip"),
                httr::accept("application/zip"))
   expect_equal(orderlyweb_accept("csv"),
