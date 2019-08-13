@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+tests/testthat/test
+inst/doc
+demo.tar.gz
+.vault
+.Renviron
+vignettes/*.html
+build
+docs
+tests/testthat/montagu-reports
