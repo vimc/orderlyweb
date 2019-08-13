@@ -33,4 +33,11 @@ vignettes: vignettes/orderly.Rmd
 tests/testthat/montagu-reports:
 	git clone git@github.com:vimc/montagu-reports $@
 
+pkgdown:
+	${RSCRIPT} -e "library(methods); pkgdown::build_site()"
+
+website: pkgdown
+	./scripts/update_web.sh
+
+
 .PHONY: test roxygen install build check check_all vignettes
