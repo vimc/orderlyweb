@@ -137,9 +137,9 @@ orderlyweb_api_client_name <- function(name, hostname, port, prefix) {
     return(name)
   }
   if (is.null(prefix)) {
-    sprintf("%s:%s", hostname, port)
+    sprintf("%s:%d", hostname, port)
   } else {
-    sprintf("%s:%s/%s", hostname, port, prefix)
+    sprintf("%s:%d/%s", hostname, port, prefix)
   }
 }
 

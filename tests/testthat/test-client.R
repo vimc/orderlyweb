@@ -76,3 +76,16 @@ test_that("download type switching", {
   expect_error(orderlyweb_accept("xlsx"),
                "unknown type xlsx")
 })
+
+
+test_that("name validation builds a name", {
+  expect_equal(
+    orderlyweb_api_client_name("given", "host", 443, "prefix"),
+    "given")
+  expect_equal(
+    orderlyweb_api_client_name(NULL, "host", 443, NULL),
+    "host:443")
+  expect_equal(
+    orderlyweb_api_client_name(NULL, "host", 443, "prefix"),
+    "host:443/prefix")
+})
