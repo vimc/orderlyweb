@@ -18,6 +18,25 @@ test_that("Authentication logic", {
 })
 
 
+test_that("Authenticate with function", {
+  skip_if_no_orderlyweb_server()
+  host <- "localhost"
+  port <- 8888
+  token <- function() {
+    message("<<custom token function>>")
+    Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  }
+  https <- FALSE
+  cl <- orderlyweb_api_client(host, port, token, https = FALSE)
+
+  expect_false(cl$is_authorised())
+  expect_message(
+    res <- cl$GET("/"),
+    "<<custom token function>>", fixed = TRUE)
+  expect_true(cl$is_authorised())
+})
+
+
 test_that("API client must use absolute paths", {
   cl <- test_orderlyweb_api_client()
   expect_error(cl$GET("reports"),
