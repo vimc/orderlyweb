@@ -8,6 +8,12 @@
 ##'
 ##' @param token Your application token for authentication
 ##'
+##' @param name A friendly name for the server (e.g, "production" or
+##'   "testing") which may be printed when using the remote, or when
+##'   authenticating.  If not provided then a name will be constructed
+##'   from \code{hostname}, \code{port} and (if provided)
+##'   \code{prefix}.
+##'
 ##' @param https Optional logical, indicating if this is an https
 ##'   connection - this should be \code{TRUE} in all production
 ##'   settings or credentials will be sent in the clear!
@@ -29,12 +35,13 @@
 ##' cl <- orderlyweb::orderlyweb_api_client(host = "example.com", port = 443,
 ##'                                         token = "mytoken")
 ##' cl$is_authorised()
-orderlyweb_api_client <- function(hostname, port, token, https = TRUE,
-                                  prefix = NULL, api_version = 1,
+orderlyweb_api_client <- function(hostname, port, token, name = NULL,
+                                  https = TRUE, prefix = NULL, api_version = 1,
                                   insecure = FALSE, verbose = FALSE) {
-  R6_orderlyweb_api_client$new(hostname, port, token, https = https,
-                               prefix = prefix, api_version = api_version,
-                               insecure = insecure, verbose = verbose)
+  R6_orderlyweb_api_client$new(hostname, port, token, name = name,
+                               https = https, prefix = prefix,
+                               api_version = api_version, insecure = insecure,
+                               verbose = verbose)
 }
 
 
@@ -43,15 +50,17 @@ R6_orderlyweb_api_client <- R6::R6Class(
   "orderlyweb_api_client",
   cloneable = FALSE,
   public = list(
+    name = NULL,
     url = NULL,
     options = NULL,
     token = NULL,
     api_token = NULL,
 
-    initialize = function(hostname, port, token, https, prefix, api_version,
-                          insecure, verbose) {
+    initialize = function(hostname, port, token, name, https, prefix,
+                          api_version, insecure, verbose) {
       self$url <- orderlyweb_api_client_url(hostname, port, https, prefix,
                                             api_version)
+      self$name <- orderlyweb_api_client_name(name, hostname, port, prefix)
       ## If token is a function that should be ok too I think; that
       ## would support the montagu flow well
       if (!is.null(token)) {
@@ -67,7 +76,7 @@ R6_orderlyweb_api_client <- R6::R6Class(
 
     authorise = function(refresh = FALSE) {
       if (refresh || is.null(self$api_token)) {
-        message(sprintf("Authorising with server %s", self$url$www))
+        message(sprintf("Authorising with server '%s'", self$name))
         self$api_token <-
           orderlyweb_api_client_login(self$url$api, self$token, self$options)
       }
@@ -114,6 +123,19 @@ orderlyweb_api_client_login <- function(url, token, options) {
   httr::stop_for_status(r)
   data <- from_json(httr::content(r, "text", encoding = "UTF-8"))
   httr::add_headers("Authorization" = paste("Bearer", data$access_token))
+}
+
+
+orderlyweb_api_client_name <- function(name, hostname, port, prefix) {
+  if (!is.null(name)) {
+    assert_scalar_character(name)
+    return(name)
+  }
+  if (is.null(prefix)) {
+    sprintf("%s:%s", hostname, port)
+  } else {
+    sprintf("%s:%s/%s", hostname, port, prefix)
+  }
 }
 
 
