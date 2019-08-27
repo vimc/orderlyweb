@@ -85,7 +85,7 @@ R6_orderlyweb_api_client <- R6::R6Class(
         if (is.function(self$token)) {
           token <- self$token()
         } else {
-          token <- token
+          token <- self$token
         }
         self$api_token <-
           orderlyweb_api_client_login(self$url$api, token, self$options)
