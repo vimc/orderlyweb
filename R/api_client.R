@@ -68,7 +68,7 @@ R6_orderlyweb_api_client <- R6::R6Class(
       self$name <- orderlyweb_api_client_name(name, hostname, port, prefix)
       if (!is.null(token)) {
         if (!is.function(token)) {
-          assert_scalar_character(token)
+          token <- orderlyweb_token_constant(token)
         }
         self$token <- token
       }
@@ -82,13 +82,8 @@ R6_orderlyweb_api_client <- R6::R6Class(
     authorise = function(refresh = FALSE) {
       if (refresh || is.null(self$api_token)) {
         message(sprintf("Authorising with server '%s'", self$name))
-        if (is.function(self$token)) {
-          token <- self$token()
-        } else {
-          token <- self$token
-        }
         self$api_token <-
-          orderlyweb_api_client_login(self$url$api, token, self$options)
+          orderlyweb_api_client_login(self$url$api, self$token(), self$options)
       }
     },
 
@@ -245,4 +240,12 @@ orderlyweb_accept <- function(accept) {
          zip = httr::accept("application/zip"),
          csv = httr::accept("text/csv"),
          stop("unknown type ", accept))
+}
+
+
+orderlyweb_token_constant <- function(token) {
+  assert_scalar_character(token)
+  function() {
+    token
+  }
 }
