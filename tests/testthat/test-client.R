@@ -13,7 +13,7 @@ test_that("Authentication logic", {
                                       paste("Bearer", "aninvalidtoken"))
   expect_message(
     res2 <- cl$GET("/reports/"),
-    "Authorising with server http://localhost:8888")
+    "Authorising with server 'localhost:8888'")
   expect_equal(res1, res2)
 })
 
