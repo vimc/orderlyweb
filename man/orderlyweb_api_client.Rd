@@ -13,7 +13,12 @@ orderlyweb_api_client(hostname, port, token, name = NULL, https = TRUE,
 
 \item{port}{Port to use}
 
-\item{token}{Your application token for authentication}
+\item{token}{Your application token for authentication.  The
+appropriate value here will depend on the authentication support
+that is built into the OrderlyWeb server that you are
+communicating with.  Provide the token directly (as a string) or
+provide a callback function that takes no arguments and returns
+token.}
 
 \item{name}{A friendly name for the server (e.g, "production" or
 "testing") which may be printed when using the remote, or when

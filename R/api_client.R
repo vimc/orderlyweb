@@ -6,7 +6,12 @@
 ##'
 ##' @param port Port to use
 ##'
-##' @param token Your application token for authentication
+##' @param token Your application token for authentication.  The
+##'   appropriate value here will depend on the authentication support
+##'   that is built into the OrderlyWeb server that you are
+##'   communicating with.  Provide the token directly (as a string) or
+##'   provide a callback function that takes no arguments and returns
+##'   token.
 ##'
 ##' @param name A friendly name for the server (e.g, "production" or
 ##'   "testing") which may be printed when using the remote, or when
@@ -61,10 +66,10 @@ R6_orderlyweb_api_client <- R6::R6Class(
       self$url <- orderlyweb_api_client_url(hostname, port, https, prefix,
                                             api_version)
       self$name <- orderlyweb_api_client_name(name, hostname, port, prefix)
-      ## If token is a function that should be ok too I think; that
-      ## would support the montagu flow well
       if (!is.null(token)) {
-        assert_scalar_character(token)
+        if (!is.function(token)) {
+          assert_scalar_character(token)
+        }
         self$token <- token
       }
       self$options <- orderlyweb_api_client_options(insecure, verbose)
@@ -77,8 +82,13 @@ R6_orderlyweb_api_client <- R6::R6Class(
     authorise = function(refresh = FALSE) {
       if (refresh || is.null(self$api_token)) {
         message(sprintf("Authorising with server '%s'", self$name))
+        if (is.function(self$token)) {
+          token <- self$token()
+        } else {
+          token <- token
+        }
         self$api_token <-
-          orderlyweb_api_client_login(self$url$api, self$token, self$options)
+          orderlyweb_api_client_login(self$url$api, token, self$options)
       }
     },
 
