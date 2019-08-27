@@ -66,12 +66,10 @@ R6_orderlyweb_api_client <- R6::R6Class(
       self$url <- orderlyweb_api_client_url(hostname, port, https, prefix,
                                             api_version)
       self$name <- orderlyweb_api_client_name(name, hostname, port, prefix)
-      if (!is.null(token)) {
-        if (!is.function(token)) {
-          token <- orderlyweb_token_constant(token)
-        }
-        self$token <- token
+      if (!is.function(token)) {
+        token <- orderlyweb_token_constant(token)
       }
+      self$token <- token
       self$options <- orderlyweb_api_client_options(insecure, verbose)
     },
 
