@@ -4,12 +4,12 @@
 \alias{orderlyweb_api_client}
 \title{Create a low-level OrderlyWeb client}
 \usage{
-orderlyweb_api_client(hostname, port, token, name = NULL, https = TRUE,
+orderlyweb_api_client(host, port, token, name = NULL, https = TRUE,
   prefix = NULL, api_version = 1, insecure = FALSE,
   verbose = FALSE)
 }
 \arguments{
-\item{hostname}{Fully qualified hostname for the OrderlyWeb instance}
+\item{host}{Fully qualified hostname for the OrderlyWeb instance}
 
 \item{port}{Port to use}
 
@@ -23,7 +23,7 @@ token.}
 \item{name}{A friendly name for the server (e.g, "production" or
 "testing") which may be printed when using the remote, or when
 authenticating.  If not provided then a name will be constructed
-from \code{hostname}, \code{port} and (if provided)
+from \code{host}, \code{port} and (if provided)
 \code{prefix}.}
 
 \item{https}{Optional logical, indicating if this is an https

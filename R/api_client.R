@@ -2,7 +2,7 @@
 ##'
 ##' @title Create a low-level OrderlyWeb client
 ##'
-##' @param hostname Fully qualified hostname for the OrderlyWeb instance
+##' @param host Fully qualified hostname for the OrderlyWeb instance
 ##'
 ##' @param port Port to use
 ##'
@@ -16,7 +16,7 @@
 ##' @param name A friendly name for the server (e.g, "production" or
 ##'   "testing") which may be printed when using the remote, or when
 ##'   authenticating.  If not provided then a name will be constructed
-##'   from \code{hostname}, \code{port} and (if provided)
+##'   from \code{host}, \code{port} and (if provided)
 ##'   \code{prefix}.
 ##'
 ##' @param https Optional logical, indicating if this is an https
@@ -40,10 +40,10 @@
 ##' cl <- orderlyweb::orderlyweb_api_client(host = "example.com", port = 443,
 ##'                                         token = "mytoken")
 ##' cl$is_authorised()
-orderlyweb_api_client <- function(hostname, port, token, name = NULL,
+orderlyweb_api_client <- function(host, port, token, name = NULL,
                                   https = TRUE, prefix = NULL, api_version = 1,
                                   insecure = FALSE, verbose = FALSE) {
-  R6_orderlyweb_api_client$new(hostname, port, token, name = name,
+  R6_orderlyweb_api_client$new(host, port, token, name = name,
                                https = https, prefix = prefix,
                                api_version = api_version, insecure = insecure,
                                verbose = verbose)
@@ -61,11 +61,11 @@ R6_orderlyweb_api_client <- R6::R6Class(
     token = NULL,
     api_token = NULL,
 
-    initialize = function(hostname, port, token, name, https, prefix,
+    initialize = function(host, port, token, name, https, prefix,
                           api_version, insecure, verbose) {
-      self$url <- orderlyweb_api_client_url(hostname, port, https, prefix,
+      self$url <- orderlyweb_api_client_url(host, port, https, prefix,
                                             api_version)
-      self$name <- orderlyweb_api_client_name(name, hostname, port, prefix)
+      self$name <- orderlyweb_api_client_name(name, host, port, prefix)
       if (!is.function(token)) {
         token <- orderlyweb_token_constant(token)
       }
@@ -129,15 +129,15 @@ orderlyweb_api_client_login <- function(url, token, options) {
 }
 
 
-orderlyweb_api_client_name <- function(name, hostname, port, prefix) {
+orderlyweb_api_client_name <- function(name, host, port, prefix) {
   if (!is.null(name)) {
     assert_scalar_character(name)
     return(name)
   }
   if (is.null(prefix)) {
-    sprintf("%s:%d", hostname, port)
+    sprintf("%s:%d", host, port)
   } else {
-    sprintf("%s:%d/%s", hostname, port, prefix)
+    sprintf("%s:%d/%s", host, port, prefix)
   }
 }
 
@@ -148,10 +148,10 @@ orderlyweb_api_client_name <- function(name, hostname, port, prefix) {
 ##   https://ebola2018.dide.ic.ac.uk/api/v1/
 ##   https://support.montagu.dide.ic.ac.uk:10443/reports/api/v1/
 ##
-## <protocol>://<hostname>:<port><prefix>/api/v1
-orderlyweb_api_client_url <- function(hostname, port, https, prefix,
+## <protocol>://<host>:<port><prefix>/api/v1
+orderlyweb_api_client_url <- function(host, port, https, prefix,
                                       api_version) {
-  assert_scalar_character(hostname)
+  assert_scalar_character(host)
   assert_scalar_integer(port)
   assert_scalar_logical(https)
   assert_scalar_integer(api_version)
@@ -168,7 +168,7 @@ orderlyweb_api_client_url <- function(hostname, port, https, prefix,
     }
   }
 
-  url_www <- sprintf("%s://%s:%d%s", protocol, hostname, port, prefix)
+  url_www <- sprintf("%s://%s:%d%s", protocol, host, port, prefix)
   list(www = url_www,
        api = sprintf("%s/api/v%d", url_www, api_version))
 }

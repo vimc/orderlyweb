@@ -7,9 +7,9 @@
 ##' @examples
 ##' remote <- orderlyweb::orderlyweb_remote("example.com", 443, "mytoken")
 ##' remote
-orderlyweb_remote <- function(hostname, port, token, https = TRUE,
+orderlyweb_remote <- function(host, port, token, https = TRUE,
                               prefix = NULL, name = NULL) {
-  R6_orderlyweb_remote$new(hostname, port, token, https, prefix, name)
+  R6_orderlyweb_remote$new(host, port, token, https, prefix, name)
 }
 
 
@@ -22,8 +22,8 @@ R6_orderlyweb_remote <- R6::R6Class(
   ),
 
   public = list(
-    initialize = function(hostname, port, token, https, prefix, name) {
-      private$client <- orderlyweb(hostname = hostname, port = port,
+    initialize = function(host, port, token, https, prefix, name) {
+      private$client <- orderlyweb(host = host, port = port,
                                    token = token, https = https,
                                    prefix = prefix, name = name)
     },
