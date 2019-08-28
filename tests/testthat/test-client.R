@@ -13,8 +13,27 @@ test_that("Authentication logic", {
                                       paste("Bearer", "aninvalidtoken"))
   expect_message(
     res2 <- cl$GET("/reports/"),
-    "Authorising with server http://localhost:8888")
+    "Authorising with server 'localhost:8888'")
   expect_equal(res1, res2)
+})
+
+
+test_that("Authenticate with function", {
+  skip_if_no_orderlyweb_server()
+  host <- "localhost"
+  port <- 8888
+  token <- function() {
+    message("<<custom token function>>")
+    Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  }
+  https <- FALSE
+  cl <- orderlyweb_api_client(host, port, token, https = FALSE)
+
+  expect_false(cl$is_authorised())
+  expect_message(
+    res <- cl$GET("/"),
+    "<<custom token function>>", fixed = TRUE)
+  expect_true(cl$is_authorised())
 })
 
 
@@ -75,4 +94,17 @@ test_that("download type switching", {
                httr::accept("text/csv"))
   expect_error(orderlyweb_accept("xlsx"),
                "unknown type xlsx")
+})
+
+
+test_that("name validation builds a name", {
+  expect_equal(
+    orderlyweb_api_client_name("given", "host", 443, "prefix"),
+    "given")
+  expect_equal(
+    orderlyweb_api_client_name(NULL, "host", 443, NULL),
+    "host:443")
+  expect_equal(
+    orderlyweb_api_client_name(NULL, "host", 443, "prefix"),
+    "host:443/prefix")
 })
