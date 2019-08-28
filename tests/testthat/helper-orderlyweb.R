@@ -39,3 +39,14 @@ test_orderlyweb_api_client <- function(use_cache = TRUE) {
 test_orderlyweb <- function(use_cache = TRUE) {
   orderlyweb(api_client = test_orderlyweb_api_client(use_cache))
 }
+
+
+zip_dir <- function(path, dest = paste0(basename(path), ".zip")) {
+  owd <- setwd(dirname(path))
+  on.exit(setwd(owd))
+  code <- utils::zip(dest, basename(path), extras = "-q")
+  if (code != 0) {
+    stop("error running zip")
+  }
+  normalizePath(dest)
+}

@@ -5,7 +5,7 @@ services:
 r_packages:
   - covr
 r_github_packages:
-  - vimc/orderly
+  - vimc/orderly@vimc-2953
 after_success:
   - Rscript -e 'covr::codecov()'
 addons:

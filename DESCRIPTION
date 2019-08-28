@@ -15,7 +15,7 @@ Imports:
     R6,
     httr,
     jsonlite,
-    orderly,
+    orderly (>= 0.7.11),
     progress
 Suggests:
     mockery,
