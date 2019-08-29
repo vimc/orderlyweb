@@ -50,3 +50,10 @@ zip_dir <- function(path, dest = paste0(basename(path), ".zip")) {
   }
   normalizePath(dest)
 }
+
+
+with_dir <- function(path, expr) {
+  owd <- setwd(path)
+  on.exit(setwd(owd))
+  force(expr)
+}

@@ -35,7 +35,7 @@ test_that("unpack failure: not an orderly archive", {
   dir.create(tmp, FALSE, TRUE)
   file.create(file.path(tmp, c("a", "b")))
   zip <- tempfile(fileext = ".zip")
-  withr::with_dir(tmp, zip(zip, dir(), extras = "-q"))
+  with_dir(tmp, zip(zip, dir(), extras = "-q"))
   expect_error(unzip_archive(zip, NULL, NULL),
                "Invalid orderly archive")
 })
