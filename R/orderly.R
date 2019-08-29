@@ -36,7 +36,7 @@ R6_orderlyweb_remote <- R6::R6Class(
       private$client$report_versions(name)
     },
 
-    pull = function(name, id, root, progress = TRUE) {
+    pull = function(name, id, progress = TRUE) {
       zip <- private$client$report_download(name, id, progress = progress)
       on.exit(unlink(zip))
       unzip_archive(zip, name, id)
