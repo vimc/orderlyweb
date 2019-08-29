@@ -61,7 +61,14 @@ test_that("pull", {
                               token = token, https = FALSE)
   dest <- orderly::orderly_example("demo")
   v <- max(remote$list_versions("minimal"))
-  remote$pull("minimal", v, dest, FALSE)
+
+  ## Directly pull and see the report:
+  path <- remote$pull("minimal", v, FALSE)
+  expect_true("orderly_run.rds" %in% dir(path))
+  expect_equal(nrow(orderly::orderly_list_archive(root = dest)), 0)
+
+  ## Pull into the archive
+  orderly::orderly_pull_archive("minimal", v, dest, remote = remote)
   res <- orderly::orderly_list_archive(root = dest)
   expect_equal(res, data_frame(name = "minimal", id = v))
 })
