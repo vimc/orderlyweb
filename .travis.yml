@@ -5,8 +5,7 @@ services:
 r_packages:
   - covr
 r_github_packages:
-  # TODO: remove the branch before merge
-  - vimc/orderly@vimc-2953
+  - vimc/orderly
 after_success:
   - Rscript -e 'covr::codecov()'
 addons:
