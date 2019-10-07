@@ -42,6 +42,10 @@ R6_orderlyweb_remote <- R6::R6Class(
       unzip_archive(zip, name, id)
     },
 
+    url_report = function(name, id) {
+      sprintf("%s/%s/%s/", private$client$api_client$url$www, name, id)
+    },
+
     run = function(name, parameters = NULL, ref = NULL, timeout = NULL,
                    wait = 1000, poll = 1, progress = TRUE,
                    stop_on_error = TRUE, open = FALSE) {
