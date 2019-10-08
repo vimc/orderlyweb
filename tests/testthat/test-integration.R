@@ -97,7 +97,6 @@ test_that("download progress", {
   out <- capture.output(
     zip <- cl$report_download(name, version, progress = TRUE))
   expect_is(out, "character")
-  expect_equal(out[[length(out)]], "")
 })
 
 
