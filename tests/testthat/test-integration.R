@@ -77,8 +77,12 @@ test_that("download", {
   path <- tempfile()
   unzip(zip, exdir = path)
   expect_equal(dir(path), version)
+  ## NOTE: this may fail when the demo repo is out of date because
+  ## there will be a migration
+  found <- dir(file.path(path, version))
+  is_migration_file <- grepl("^orderly_run_([0-9]+\\.){3}rds$", found)
   expect_setequal(
-    dir(file.path(path, version)),
+    found[!is_migration_file],
     c("data.csv", "orderly.yml", "orderly_run.rds", "out.rds", "script.R"))
 })
 
@@ -93,7 +97,6 @@ test_that("download progress", {
   out <- capture.output(
     zip <- cl$report_download(name, version, progress = TRUE))
   expect_is(out, "character")
-  expect_equal(out[[length(out)]], "")
 })
 
 
