@@ -308,4 +308,19 @@ test_that("timeout", {
   expect_error(
     cl$report_run_wait(ans, timeout = 0, poll = 0, progress = FALSE),
     "timeout reached")
+  expect_error(
+    cl$report_run_wait(ans, timeout = 10, poll = 1, progress = FALSE),
+    NA)
+})
+
+
+test_that("timeout without error", {
+  cl <- test_orderlyweb()
+  ans <- cl$report_run("slow10", wait = FALSE)
+  res <- cl$report_run_wait(ans, timeout = 2, poll = 0, progress = FALSE,
+                            stop_on_timeout = FALSE)
+  expect_equal(res$status, "running")
+  res <- cl$report_run_wait(ans, timeout = 10, poll = 0, progress = FALSE,
+                            stop_on_timeout = FALSE)
+  expect_equal(res$status, "success")
 })
