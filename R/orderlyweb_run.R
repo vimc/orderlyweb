@@ -1,5 +1,5 @@
 report_run_wait <- function(path, name, key, client, timeout, poll, open,
-                            progress, stop_on_error) {
+                            progress, stop_on_error, stop_on_timeout) {
   if (progress) {
     message(sprintf("running report '%s' as '%s'", name, key))
   }
@@ -19,7 +19,11 @@ report_run_wait <- function(path, name, key, client, timeout, poll, open,
     }
 
     if (Sys.time() > t_stop) {
-      stop("timeout reached")
+      if (stop_on_timeout) {
+        stop("timeout reached")
+      } else {
+        break
+      }
     }
 
     Sys.sleep(if (ans$status == "queued") max(poll, 1) else poll)
