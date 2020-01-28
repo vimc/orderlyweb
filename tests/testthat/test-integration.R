@@ -254,7 +254,7 @@ test_that("run: simple", {
   expect_equal(res$status, "success")
   expect_setequal(names(res$output), c("stderr", "stdout"))
   expect_equal(res$url,
-               paste0("http://localhost:8888/reports/minimal/", res$id))
+               paste0("http://localhost:8888/report/minimal/", res$id))
   expect_match(res$output$stderr, "[ name       ]  minimal",
                fixed = TRUE, all = FALSE)
 })
@@ -269,7 +269,7 @@ test_that("run: simple", {
   expect_equal(res$status, "success")
   expect_setequal(names(res$output), c("stderr", "stdout"))
   expect_equal(res$url,
-               paste0("http://localhost:8888/reports/minimal/", res$id))
+               paste0("http://localhost:8888/report/minimal/", res$id))
   expect_match(res$output$stderr, "[ name       ]  minimal",
                fixed = TRUE, all = FALSE)
 })
