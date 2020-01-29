@@ -127,7 +127,7 @@ report_wait_cleanup <- function(name, ans, progress, stop_on_error,
   }
 
   if (ans$status == "success") {
-    url <- sprintf("%s/reports/%s/%s", client$api_client$url$www,
+    url <- sprintf("%s/report/%s/%s", client$api_client$url$www,
                    name, ans$version)
     if (open) {
       message("Opening report in browser (you may need to log in)")

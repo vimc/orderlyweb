@@ -108,7 +108,7 @@ test_that("cleanup - open url", {
   m <- mockery::mock()
   mockery::stub(report_wait_cleanup, "utils::browseURL", m)
   res1 <- report_wait_cleanup("name", ans, FALSE, TRUE, FALSE, client)
-  expect_equal(res1$url, "https://example.com/reports/reports/name/id")
+  expect_equal(res1$url, "https://example.com/reports/report/name/id")
   mockery::expect_called(m, 0)
 
   res2 <- report_wait_cleanup("name", ans, FALSE, TRUE, TRUE, client)
