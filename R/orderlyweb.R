@@ -133,12 +133,11 @@ R6_orderlyweb <- R6::R6Class(
                           poll = 0.5, open = FALSE,
                           stop_on_error = FALSE, stop_on_timeout = TRUE,
                           progress = TRUE) {
-      if (!is.null(parameters)) {
-        stop("parameters not yet supported")
-      }
       query <- report_run_query(ref, update, timeout)
+      parameters <- report_run_parameters(parameters)
       res <- self$api_client$POST(sprintf("/reports/%s/run/", name),
-                                  query = query)
+                                  query = query, body = parameters,
+                                  encode = "json")
       class(res) <- "orderlyweb_run"
 
       if (wait > 0) {

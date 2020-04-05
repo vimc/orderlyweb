@@ -52,6 +52,34 @@ report_run_query <- function(ref, update, timeout) {
 }
 
 
+report_run_parameters <- function(parameters) {
+  if (is.null(parameters) || length(parameters) == 0) {
+    return(NULL)
+  }
+  nms <- names(parameters)
+  if (is.null(nms)) {
+    stop("'parameters' must be named")
+  }
+  if (!all(nzchar(nms))) {
+    stop(sprintf("'parameters' names must not be empty (check %s)",
+                 paste(which(!nchar(nms)), collapse = ", ")))
+  }
+  if (any(duplicated(nms))) {
+    stop(sprintf("'parameters' names must be unique (check %s)",
+                 paste(squote(unique(nms[duplicated(nms)])), collapse = ", ")))
+  }
+  if (!is.list(parameters)) {
+    stop("'parameters' must be a list")
+  }
+  err <- lengths(parameters) != 1
+  if (any(err)) {
+    stop(sprintf("All parameters must be scalar (check %s)",
+                 paste(squote(nms[err]), collapse = ", ")))
+  }
+  parameters
+}
+
+
 report_wait_progress <- function(key, progress, force = FALSE) {
   if (!progress) {
     return(function(...) {})
