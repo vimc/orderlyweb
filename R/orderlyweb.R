@@ -183,10 +183,13 @@ R6_orderlyweb <- R6::R6Class(
 
     report_publish = function(name, version, value = TRUE) {
       assert_scalar_logical(value)
-      query <- list(value = value)
-      self$api_client$POST(
-        sprintf("/reports/%s/versions/%s/publish/", name, version),
-        query = query)
+      status <- self$report_metadata(name, version)$published
+      if (status != value) {
+        self$api_client$POST(
+          sprintf("/reports/%s/versions/%s/publish/", name, version),
+          query = query)
+      }
+      value
     },
 
     versions = function() {
