@@ -182,6 +182,7 @@ R6_orderlyweb <- R6::R6Class(
     },
 
     report_publish = function(name, version, value = TRUE) {
+      ## A bit more complicated than it used to be: mrc-1473
       assert_scalar_logical(value)
       status <- self$report_metadata(name, version)$published
       if (status != value) {
