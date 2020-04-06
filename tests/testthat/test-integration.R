@@ -291,13 +291,6 @@ test_that("run: get handle", {
 })
 
 
-test_that("parameters are not supported", {
-  cl <- test_orderlyweb()
-  expect_error(cl$report_run("minimal", parameters = list(a = 1)),
-               "parameters not yet supported")
-})
-
-
 test_that("wait validation", {
   cl <- test_orderlyweb()
   expect_error(cl$report_run_wait(TRUE),
