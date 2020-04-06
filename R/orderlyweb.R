@@ -201,8 +201,6 @@ R6_orderlyweb <- R6::R6Class(
         latest_version = vcapply(dat, "[[", "latest_version"),
         published = vlapply(dat, "[[", "published"),
         date = vcapply(dat, "[[", "date"),
-        author = vcapply(dat, "[[", "author"),
-        requester = vcapply(dat, "[[", "requester"),
         display_name = vcapply(dat, function(x)
           x$display_name %||% NA_character_))
     },
