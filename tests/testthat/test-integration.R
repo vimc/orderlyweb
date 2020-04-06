@@ -229,7 +229,7 @@ test_that("publish", {
   version <- min(cl$report_versions(name))
   expect_false(cl$report_metadata(name, version)$published)
 
-  expect_false(cl$report_publish(name, version, TRUE))
+  expect_true(cl$report_publish(name, version, TRUE))
   expect_true(cl$report_metadata(name, version)$published)
   expect_true(cl$report_publish(name, version, TRUE))
   expect_true(cl$report_metadata(name, version)$published)
