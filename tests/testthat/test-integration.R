@@ -210,6 +210,10 @@ test_that("data download", {
 
 
 test_that("summary", {
+  ## This test has started failing due to orderlyweb throwing a 500
+  ## error - see mrc-1472 - though this endpoint could be retired I
+  ## think
+  skip("Failing with current OrderlyWeb (mrc-1472)")
   cl <- test_orderlyweb()
   d <- cl$versions()
   expect_is(d, "data.frame")
