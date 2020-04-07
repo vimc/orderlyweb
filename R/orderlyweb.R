@@ -188,7 +188,7 @@ R6_orderlyweb <- R6::R6Class(
       if (status != value) {
         self$api_client$POST(
           sprintf("/reports/%s/versions/%s/publish/", name, version),
-          query = query)
+          query = list(value = tolower(value)))
       }
       value
     },
