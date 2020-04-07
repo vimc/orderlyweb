@@ -291,6 +291,25 @@ test_that("run: get handle", {
 })
 
 
+test_that("run: pass parameters", {
+  cl <- test_orderlyweb()
+  ans <- cl$report_run("other", parameters = list(nmin = 0.5), wait = FALSE)
+  expect_is(ans, "orderlyweb_run")
+
+  Sys.sleep(2)
+  expect_equal(cl$report_run_status(ans)$status, "success")
+  expect_equal(cl$report_run_status(ans$key)$status, "success")
+  res <- cl$report_run_wait(ans, progress = FALSE)
+  expect_equal(res$name, "other")
+
+  expect_match(res$output$stderr, "nmin: 0.5", all = FALSE, fixed = TRUE)
+
+  msg <- capture_messages(cl$report_run_wait(ans, progress = TRUE))
+  expect_equal(msg[[1]],
+               sprintf("running report 'other' as '%s'\n", ans$key))
+})
+
+
 test_that("wait validation", {
   cl <- test_orderlyweb()
   expect_error(cl$report_run_wait(TRUE),
