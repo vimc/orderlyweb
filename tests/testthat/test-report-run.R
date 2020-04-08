@@ -70,6 +70,29 @@ test_that("query", {
 })
 
 
+test_that("parameters", {
+  expect_null(report_run_parameters(NULL))
+  expect_null(report_run_parameters(list()))
+  expect_equal(report_run_parameters(list(a = 1, b = 2)),
+               list(a = 1, b = 2))
+
+  expect_error(report_run_parameters(list(1, 2)),
+               "'parameters' must be named")
+  expect_error(report_run_parameters(list(a = 1, 2)),
+               "'parameters' names must not be empty (check 2)",
+               fixed = TRUE)
+  expect_error(report_run_parameters(list(a = 1, a = 2)),
+               "'parameters' names must be unique (check 'a')",
+               fixed = TRUE)
+  expect_error(report_run_parameters(c(a = 1, b = 2)),
+               "'parameters' must be a list",
+               fixed = TRUE)
+  expect_error(report_run_parameters(list(a = 1:2, b = 2)),
+               "All parameters must be scalar (check 'a')",
+               fixed = TRUE)
+})
+
+
 test_that("cleanup", {
   client <- NULL
   ans <- list(status = "error",

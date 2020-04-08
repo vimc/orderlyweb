@@ -11,7 +11,7 @@ orderly:
   image:
     repo: vimc
     name: orderly.server
-    tag: master
+    tag: master 
   initial:
     source: clone
     url: https://github.com/vimc/orderly-demo

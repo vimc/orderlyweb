@@ -133,12 +133,11 @@ R6_orderlyweb <- R6::R6Class(
                           poll = 0.5, open = FALSE,
                           stop_on_error = FALSE, stop_on_timeout = TRUE,
                           progress = TRUE) {
-      if (!is.null(parameters)) {
-        stop("parameters not yet supported")
-      }
       query <- report_run_query(ref, update, timeout)
+      parameters <- report_run_parameters(parameters)
       res <- self$api_client$POST(sprintf("/reports/%s/run/", name),
-                                  query = query)
+                                  query = query, body = parameters,
+                                  encode = "json")
       class(res) <- "orderlyweb_run"
 
       if (wait > 0) {
@@ -183,11 +182,15 @@ R6_orderlyweb <- R6::R6Class(
     },
 
     report_publish = function(name, version, value = TRUE) {
+      ## A bit more complicated than it used to be: mrc-1473
       assert_scalar_logical(value)
-      query <- list(value = value)
-      self$api_client$POST(
-        sprintf("/reports/%s/versions/%s/publish/", name, version),
-        query = query)
+      status <- self$report_metadata(name, version)$published
+      if (status != value) {
+        self$api_client$POST(
+          sprintf("/reports/%s/versions/%s/publish/", name, version),
+          query = list(value = tolower(value)))
+      }
+      value
     },
 
     versions = function() {
@@ -198,8 +201,6 @@ R6_orderlyweb <- R6::R6Class(
         latest_version = vcapply(dat, "[[", "latest_version"),
         published = vlapply(dat, "[[", "published"),
         date = vcapply(dat, "[[", "date"),
-        author = vcapply(dat, "[[", "author"),
-        requester = vcapply(dat, "[[", "requester"),
         display_name = vcapply(dat, function(x)
           x$display_name %||% NA_character_))
     },
