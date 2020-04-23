@@ -88,7 +88,7 @@ test_that("url_report returns expected url", {
   cl <- orderlyweb_remote("host", 8888, "token")
   expect_equal(
     cl$url_report("myreport", "20191007-160636-c822cacd"),
-    "https://host:8888/myreport/20191007-160636-c822cacd/")
+    "https://host:8888/report/myreport/20191007-160636-c822cacd/")
 })
 
 
@@ -96,5 +96,5 @@ test_that("url_report includes prefix", {
   cl <- orderlyweb_remote("host", 8888, "token", prefix = "prefix")
   expect_equal(
     cl$url_report("name", "id"),
-    "https://host:8888/prefix/name/id/")
+    "https://host:8888/prefix/report/name/id/")
 })
