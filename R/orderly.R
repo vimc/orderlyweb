@@ -43,7 +43,7 @@ R6_orderlyweb_remote <- R6::R6Class(
     },
 
     url_report = function(name, id) {
-      sprintf("%s/%s/%s/", private$client$api_client$url$www, name, id)
+      sprintf("%s/report/%s/%s/", private$client$api_client$url$www, name, id)
     },
 
     run = function(name, parameters = NULL, ref = NULL, timeout = NULL,
