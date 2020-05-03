@@ -20,6 +20,7 @@ test_that("list", {
   res <- remote$list_reports()
   expect_is(res, "character")
   expect_true("minimal" %in% res)
+  expect_match(remote$name, "localhost")
 })
 
 
