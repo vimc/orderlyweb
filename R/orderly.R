@@ -22,10 +22,13 @@ R6_orderlyweb_remote <- R6::R6Class(
   ),
 
   public = list(
+    name = NULL,
+
     initialize = function(host, port, token, https, prefix, name) {
       private$client <- orderlyweb(host = host, port = port,
                                    token = token, https = https,
                                    prefix = prefix, name = name)
+      self$name <- name
     },
 
     list_reports = function() {

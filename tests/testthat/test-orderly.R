@@ -5,9 +5,10 @@ test_that("create", {
   skip_if_no_orderlyweb_server()
   token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
   remote <- orderlyweb_remote(host = "localhost", port = 8888,
-                              token = token, https = FALSE)
+                              token = token, https = FALSE, name = "remote")
   expect_is(remote, "orderlyweb_remote")
   expect_true(orderly:::implements_remote(remote))
+  expect_equal(remote$name, "remote")
 })
 
 
