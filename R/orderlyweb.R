@@ -73,6 +73,12 @@ R6_orderlyweb <- R6::R6Class(
       self$api_client$GET(sprintf("/reports/%s/versions/%s/", name, version))
     },
 
+    report_metadata_orderly = function(name, version, dest = NULL) {
+      download <- orderlyweb_download(dest, FALSE, "rds")
+      path <- sprintf("/reports/%s/versions/%s/run-meta", name, version)
+      self$api_client$GET(path, download = download)
+    },
+
     report_download = function(name, version, dest = NULL, progress = TRUE) {
       download <- orderlyweb_download(dest, progress, "zip")
       ret <- self$api_client$GET(

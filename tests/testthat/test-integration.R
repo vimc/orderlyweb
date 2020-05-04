@@ -65,6 +65,23 @@ test_that("can fetch metadata", {
 })
 
 
+test_that("can fetch run metadata", {
+  cl <- test_orderlyweb()
+  d <- cl$report_list()
+
+  name <- "minimal"
+  version <- d$latest_version[d$name == name]
+
+  res <- cl$report_metadata_orderly(name, version)
+  expect_true(file.exists(res))
+
+  dat <- readRDS(res)
+  expect_equal(dat$meta$name, name)
+  expect_equal(dat$meta$id, version)
+  expect_true("description" %in% names(dat$meta))
+})
+
+
 test_that("download", {
   cl <- test_orderlyweb()
   d <- cl$report_list()

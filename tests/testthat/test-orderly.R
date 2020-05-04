@@ -76,6 +76,23 @@ test_that("pull", {
 })
 
 
+test_that("metadata", {
+  skip_if_no_orderlyweb_server()
+  token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  remote <- orderlyweb_remote(host = "localhost", port = 8888,
+                              token = token, https = FALSE)
+  dest <- orderly::orderly_example("demo")
+  v <- max(remote$list_versions("minimal"))
+
+  path <- remote$pull("minimal", v, FALSE)
+  meta <- remote$metadata("minimal", v)
+  ## There is a chance this will failing during a migration
+  expect_identical(
+    readRDS(meta),
+    readRDS(file.path(path, "orderly_run.rds")))
+})
+
+
 test_that("run", {
   skip_if_no_orderlyweb_server()
   token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
