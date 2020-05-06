@@ -86,7 +86,7 @@ test_that("metadata", {
 
   path <- remote$pull("minimal", v, FALSE)
   meta <- remote$metadata("minimal", v)
-  ## There is a chance this will failing during a migration
+  ## There is a chance this will fail during a migration
   expect_identical(
     readRDS(meta),
     readRDS(file.path(path, "orderly_run.rds")))
