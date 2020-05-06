@@ -49,6 +49,10 @@ R6_orderlyweb_remote <- R6::R6Class(
       sprintf("%s/report/%s/%s/", private$client$api_client$url$www, name, id)
     },
 
+    metadata = function(name, id) {
+      private$client$report_metadata_orderly(name, id)
+    },
+
     run = function(name, parameters = NULL, ref = NULL, timeout = NULL,
                    wait = 1000, poll = 1, progress = TRUE,
                    stop_on_error = TRUE, stop_on_timeout = TRUE, open = FALSE) {
