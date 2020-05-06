@@ -309,6 +309,27 @@ test_that("run: pass parameters", {
                sprintf("running report 'other' as '%s'\n", ans$key))
 })
 
+test_that("run: instance", {
+  cl <- test_orderlyweb()
+  res <- cl$report_run("minimal", poll = 0.1, instance = "other",
+                       progress = FALSE)
+  expect_equal(res$status, "error")
+  expect_true("Error: no such table: thing" %in% res$output$stderr)
+
+  res <- cl$report_run("minimal", poll = 0.1, instance = "missing",
+                       progress = FALSE)
+  expect_equal(res$status, "error")
+  expect_true("Error: Invalid instance 'missing' for database 'source'" %in%
+                res$output$stderr)
+
+  res <- cl$report_run("minimal", poll = 0.1, instance = "default",
+                       progress = FALSE)
+  expect_equal(names(res), c("name", "id", "status", "output", "url"))
+  expect_equal(res$status, "success")
+  expect_match(res$output$stderr, "[ name       ]  minimal",
+               fixed = TRUE, all = FALSE)
+})
+
 
 test_that("wait validation", {
   cl <- test_orderlyweb()

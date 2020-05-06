@@ -85,6 +85,22 @@ test_that("run", {
   expect_equal(max(remote$list_versions("minimal")), res$id)
 })
 
+test_that("run with instance", {
+  skip_if_no_orderlyweb_server()
+  token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  remote <- orderlyweb_remote(host = "localhost", port = 8888,
+                              token = token, https = FALSE)
+  expect_error(remote$run("minimal", open = FALSE, progress = FALSE,
+                          instance = "other"),
+               "Report has failed: see above for details")
+  expect_error(remote$run("minimal", open = FALSE, progress = FALSE,
+                          instance = "missing"),
+               "Report has failed: see above for details")
+  res <- remote$run("minimal", open = FALSE, progress = FALSE,
+                          instance = "default")
+  expect_equal(res$status, "success")
+})
+
 
 test_that("url_report returns expected url", {
   cl <- orderlyweb_remote("host", 8888, "token")
@@ -99,4 +115,13 @@ test_that("url_report includes prefix", {
   expect_equal(
     cl$url_report("name", "id"),
     "https://host:8888/prefix/report/name/id/")
+})
+
+test_that("run with instance", {
+  skip_if_no_orderlyweb_server()
+  token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  remote <- orderlyweb_remote(host = "localhost", port = 8888,
+                              token = token, https = FALSE)
+  res <- remote$run("minimal", open = FALSE, progress = FALSE)
+  expect_equal(max(remote$list_versions("minimal")), res$id)
 })

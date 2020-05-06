@@ -33,7 +33,7 @@ report_run_wait <- function(path, name, key, client, timeout, poll, open,
 }
 
 
-report_run_query <- function(ref, update, timeout) {
+report_run_query <- function(ref, update, timeout, instance) {
   query <- list()
   if (!is.null(ref)) {
     query$ref <- ref
@@ -44,6 +44,9 @@ report_run_query <- function(ref, update, timeout) {
   if (!is.null(timeout)) {
     assert_scalar_integer(timeout)
     query$timeout <- as.character(timeout)
+  }
+  if (!is.null(instance)) {
+    query$instance <- instance
   }
   if (length(query) == 0L) {
     query <- NULL

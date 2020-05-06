@@ -54,19 +54,22 @@ test_that("progress - queued", {
 
 test_that("query", {
   expect_null(
-    report_run_query(NULL, TRUE, NULL))
+    report_run_query(NULL, TRUE, NULL, NULL))
   expect_equal(
-    report_run_query("ref", FALSE, NULL),
+    report_run_query("ref", FALSE, NULL, NULL),
     list(ref = "ref", update = "false"))
   expect_equal(
-    report_run_query("ref", TRUE, NULL),
+    report_run_query("ref", TRUE, NULL, NULL),
     list(ref = "ref"))
   expect_equal(
-    report_run_query("ref", TRUE, 1),
+    report_run_query("ref", TRUE, 1, NULL),
     list(ref = "ref", timeout = "1"))
   expect_equal(
-    report_run_query(NULL, TRUE, 1),
+    report_run_query(NULL, TRUE, 1, NULL),
     list(timeout = "1"))
+  expect_equal(
+    report_run_query(NULL, TRUE, NULL, "instance"),
+    list(instance = "instance"))
 })
 
 
