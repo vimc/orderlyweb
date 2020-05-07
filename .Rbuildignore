@@ -2,3 +2,5 @@
 ^\.travis\.yml$
 ^scripts$
 ^docs$
+^.*\.Rproj$
+^\.Rproj\.user$
