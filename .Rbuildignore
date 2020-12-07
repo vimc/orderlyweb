@@ -4,3 +4,4 @@
 ^docs$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.github$
