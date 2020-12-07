@@ -199,6 +199,35 @@ R6_orderlyweb <- R6::R6Class(
       value
     },
 
+    bundle_pack = function(name, parameters = NULL, instance = NULL,
+                           progress = TRUE) {
+      parameters <- report_run_parameters(parameters)
+      if (!is.null(instance)) {
+        query <- list(instance = instance)
+      } else {
+        query <- NULL
+      }
+      download <- orderlyweb_download(tempfile(), progress, "zip")
+      res <- self$api_client$POST(sprintf("/bundle/pack/%s/", name),
+                                  download = download)
+
+      ## This is the underlying filename that we should use:
+      filename <- paste0(sub("/.*", "", zip::zip_list(res)$filename[[1]]),
+                         ".zip")
+
+      ## Always save the temporary directory
+      dest <- file.path(tempdir(), filename)
+      fs::file_move(res, dest)
+
+      dest
+    },
+
+    bundle_import = function(path, progress = TRUE) {
+      self$api_client$POST("/bundle/import/",
+                           body = httr::upload_file(path),
+                           if (progress) httr::progress("up"))
+    },
+
     versions = function() {
       dat <- self$api_client$GET("/versions/")
       data_frame(
