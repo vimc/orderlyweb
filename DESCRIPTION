@@ -19,7 +19,8 @@ Imports:
     progress
 Suggests:
     mockery,
-    testthat
+    testthat,
+    zip
 RoxygenNote: 6.1.1
 License: MIT + file LICENSE
 URL: https://github.com/vimc/orderlyweb
