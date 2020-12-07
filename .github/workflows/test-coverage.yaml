@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ORDERLYWEB_TEST_TOKEN: ${{ secrets.ORDERLYWEB_TEST_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
