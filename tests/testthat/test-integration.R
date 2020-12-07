@@ -398,3 +398,27 @@ test_that("can pack a bundle", {
 
   expect_true(ans$id %in% cl$report_versions("minimal"))
 })
+
+
+test_that("can pass parameters to bundle pack", {
+  cl <- test_orderlyweb()
+  res <- cl$bundle_pack("other", list(nmin = 0.5), progress = FALSE)
+
+  tmp <- tempfile()
+  ans <- zip::unzip(res, exdir = tmp)
+  expect_equal(
+    readRDS(file.path(tmp, dir(tmp), "meta", "info.rds"))$parameters,
+    list(nmin = 0.5))
+})
+
+
+test_that("can pass instance to bundle pack", {
+  cl <- test_orderlyweb()
+  res <- cl$bundle_pack("minimal", instance = "default", progress = FALSE)
+
+  tmp <- tempfile()
+  ans <- zip::unzip(res, exdir = tmp)
+  expect_equal(
+    readRDS(file.path(tmp, dir(tmp), "meta", "info.rds"))$instance,
+    "default")
+})

@@ -209,7 +209,8 @@ R6_orderlyweb <- R6::R6Class(
       }
       download <- orderlyweb_download(tempfile(), progress, "zip")
       res <- self$api_client$POST(sprintf("/bundle/pack/%s/", name),
-                                  download = download)
+                                  body = parameters, download = download,
+                                  encode = "json", query = query)
 
       ## This is the underlying filename that we should use:
       filename <- paste0(sub("/.*", "", zip::zip_list(res)$filename[[1]]),
