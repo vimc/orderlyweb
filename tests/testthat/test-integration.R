@@ -296,7 +296,7 @@ test_that("run: get handle", {
   cl <- test_orderlyweb()
   ans <- cl$report_run("minimal", wait = FALSE)
   expect_is(ans, "orderlyweb_run")
-  Sys.sleep(2)
+  Sys.sleep(10)
   expect_equal(cl$report_run_status(ans)$status, "success")
   expect_equal(cl$report_run_status(ans$key)$status, "success")
   res <- cl$report_run_wait(ans, progress = FALSE)
@@ -313,7 +313,7 @@ test_that("run: pass parameters", {
   ans <- cl$report_run("other", parameters = list(nmin = 0.5), wait = FALSE)
   expect_is(ans, "orderlyweb_run")
 
-  Sys.sleep(2)
+  Sys.sleep(10)
   expect_equal(cl$report_run_status(ans)$status, "success")
   expect_equal(cl$report_run_status(ans$key)$status, "success")
   res <- cl$report_run_wait(ans, progress = FALSE)
