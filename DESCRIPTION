@@ -16,11 +16,11 @@ Imports:
     httr,
     jsonlite,
     orderly (>= 1.2.18),
-    progress
+    progress,
+    zip
 Suggests:
     mockery,
-    testthat,
-    zip
+    testthat
 RoxygenNote: 6.1.1
 License: MIT + file LICENSE
 URL: https://github.com/vimc/orderlyweb
