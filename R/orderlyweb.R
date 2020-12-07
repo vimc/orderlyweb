@@ -84,9 +84,7 @@ R6_orderlyweb <- R6::R6Class(
       ret <- self$api_client$GET(
         sprintf("/reports/%s/versions/%s/all/", name, version),
         download = download)
-      if (progress) {
-        cat("\n") # httr's progress bar is rubbish
-      }
+      fix_progress_print(progress)
       ret
     },
 
@@ -211,6 +209,7 @@ R6_orderlyweb <- R6::R6Class(
       res <- self$api_client$POST(sprintf("/bundle/pack/%s/", name),
                                   body = parameters, download = download,
                                   encode = "json", query = query)
+      fix_progress_print(progress)
 
       ## This is the underlying filename that we should use:
       filename <- paste0(sub("/.*", "", zip::zip_list(res)$filename[[1]]),
