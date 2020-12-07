@@ -211,11 +211,9 @@ R6_orderlyweb <- R6::R6Class(
                                   encode = "json", query = query)
       fix_progress_print(progress)
 
-      ## This is the underlying filename that we should use:
       filename <- paste0(sub("/.*", "", zip::zip_list(res)$filename[[1]]),
                          ".zip")
 
-      ## Always save the temporary directory
       dest <- file.path(tempdir(), filename)
       fs::file_move(res, dest)
 
