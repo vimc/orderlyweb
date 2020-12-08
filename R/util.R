@@ -80,6 +80,6 @@ squote <- function(x) {
 
 fix_progress_print <- function(progress) {
   if (progress) {
-    cat("\n") # httr's progress bar is rubbish
+    cat("\n") # httr's progress bar is rubbish for requests of unknown size
   }
 }
