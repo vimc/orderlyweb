@@ -15,7 +15,7 @@ Imports:
     R6,
     httr,
     jsonlite,
-    orderly (>= 1.2.18),
+    orderly (>= 1.2.19),
     progress,
     zip
 Suggests:
@@ -28,4 +28,4 @@ BugReports: https://github.com/vimc/orderlyweb/issues
 Encoding: UTF-8
 LazyData: true
 Remotes:
-    vimc/orderly
+    vimc/orderly@vimc-4457
