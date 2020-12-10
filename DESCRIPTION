@@ -28,4 +28,4 @@ BugReports: https://github.com/vimc/orderlyweb/issues
 Encoding: UTF-8
 LazyData: true
 Remotes:
-    vimc/orderly@vimc-4457
+    vimc/orderly
