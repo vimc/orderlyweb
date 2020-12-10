@@ -84,9 +84,7 @@ R6_orderlyweb <- R6::R6Class(
       ret <- self$api_client$GET(
         sprintf("/reports/%s/versions/%s/all/", name, version),
         download = download)
-      if (progress) {
-        cat("\n") # httr's progress bar is rubbish
-      }
+      fix_progress_print(progress)
       ret
     },
 
@@ -197,6 +195,35 @@ R6_orderlyweb <- R6::R6Class(
           query = list(value = tolower(value)))
       }
       value
+    },
+
+    bundle_pack = function(name, parameters = NULL, instance = NULL,
+                           progress = TRUE) {
+      parameters <- report_run_parameters(parameters)
+      if (!is.null(instance)) {
+        query <- list(instance = instance)
+      } else {
+        query <- NULL
+      }
+      download <- orderlyweb_download(tempfile(), progress, "zip")
+      res <- self$api_client$POST(sprintf("/bundle/pack/%s/", name),
+                                  body = parameters, download = download,
+                                  encode = "json", query = query)
+      fix_progress_print(progress)
+
+      filename <- paste0(sub("/.*", "", zip::zip_list(res)$filename[[1]]),
+                         ".zip")
+
+      dest <- file.path(tempdir(), filename)
+      fs::file_move(res, dest)
+
+      dest
+    },
+
+    bundle_import = function(path, progress = TRUE) {
+      self$api_client$POST("/bundle/import/",
+                           body = httr::upload_file(path),
+                           if (progress) httr::progress("up"))
     },
 
     versions = function() {

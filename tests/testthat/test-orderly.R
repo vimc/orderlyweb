@@ -142,3 +142,32 @@ test_that("run with instance", {
   res <- remote$run("minimal", open = FALSE, progress = FALSE)
   expect_equal(max(remote$list_versions("minimal")), res$id)
 })
+
+
+test_that("bundle interface", {
+  skip_if_no_orderlyweb_server()
+  token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  remote <- orderlyweb_remote(host = "localhost", port = 8888,
+                              token = token, https = FALSE)
+
+  res <- remote$bundle_pack("minimal", progress = FALSE)
+  ans <- orderly::orderly_bundle_run(res, echo = FALSE)
+  expect_true(remote$bundle_import(ans$path, progress = FALSE))
+  expect_true(ans$id %in% remote$list_versions("minimal"))
+})
+
+
+test_that("bundle high level interface", {
+  skip_if_no_orderlyweb_server()
+  token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  remote <- orderlyweb_remote(host = "localhost", port = 8888,
+                              token = token, https = FALSE)
+
+  capture.output(
+    res <- orderly::orderly_bundle_pack_remote("minimal", remote = remote))
+  ans <- orderly::orderly_bundle_run(res, echo = FALSE)
+  capture.output(
+    res <- orderly::orderly_bundle_import_remote(ans$path, remote = remote))
+
+  expect_true(ans$id %in% remote$list_versions("minimal"))
+})

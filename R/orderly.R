@@ -63,5 +63,14 @@ R6_orderlyweb_remote <- R6::R6Class(
                                 stop_on_error = stop_on_error,
                                 stop_on_timeout = stop_on_timeout,
                                 progress = progress, instance = instance)
+    },
+
+    bundle_pack = function(name, parameters = NULL, instance = NULL,
+                           progress = TRUE) {
+      private$client$bundle_pack(name, parameters, instance, progress)
+    },
+
+    bundle_import = function(path, progress = TRUE) {
+      private$client$bundle_import(path, progress)
     }
   ))

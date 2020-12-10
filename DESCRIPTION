@@ -1,6 +1,6 @@
 Package: orderlyweb
-Title: Orderly Support For 'OrderlyWeb'
-Version: 0.1.8
+Title: Orderly Support for 'OrderlyWeb'
+Version: 0.1.9
 Authors@R:
     c(person(given = "Rich",
              family = "FitzJohn",
@@ -15,8 +15,9 @@ Imports:
     R6,
     httr,
     jsonlite,
-    orderly (>= 1.2.18),
-    progress
+    orderly (>= 1.2.19),
+    progress,
+    zip
 Suggests:
     mockery,
     testthat

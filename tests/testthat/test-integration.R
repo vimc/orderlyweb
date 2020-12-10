@@ -381,3 +381,44 @@ test_that("timeout without error", {
                             stop_on_timeout = FALSE)
   expect_equal(res$status, "success")
 })
+
+
+test_that("can pack a bundle", {
+  cl <- test_orderlyweb()
+  res <- cl$bundle_pack("minimal", progress = FALSE)
+  expect_true(file.exists(res))
+  expect_equal(dirname(res), tempdir())
+  expect_match(basename(res), "^[0-9]{8}-[0-9]{6}-[[:xdigit:]]{8}\\.zip$")
+
+  ans <- orderly::orderly_bundle_run(res, echo = FALSE)
+  expect_equal(ans$id, sub("\\.zip$", "", basename(res)))
+  expect_false(ans$id %in% cl$report_versions("minimal"))
+
+  cl$bundle_import(ans$path, progress = FALSE)
+
+  expect_true(ans$id %in% cl$report_versions("minimal"))
+})
+
+
+test_that("can pass parameters to bundle pack", {
+  cl <- test_orderlyweb()
+  res <- cl$bundle_pack("other", list(nmin = 0.5), progress = FALSE)
+
+  tmp <- tempfile()
+  ans <- zip::unzip(res, exdir = tmp)
+  expect_equal(
+    readRDS(file.path(tmp, dir(tmp), "meta", "info.rds"))$parameters,
+    list(nmin = 0.5))
+})
+
+
+test_that("can pass instance to bundle pack", {
+  cl <- test_orderlyweb()
+  res <- cl$bundle_pack("minimal", instance = "default", progress = FALSE)
+
+  tmp <- tempfile()
+  ans <- zip::unzip(res, exdir = tmp)
+  expect_equal(
+    readRDS(file.path(tmp, dir(tmp), "meta", "info.rds"))$instance,
+    "default")
+})
