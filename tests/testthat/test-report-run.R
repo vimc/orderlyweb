@@ -19,18 +19,19 @@ test_that("progress - with output", {
   id <- "20190805-153610-eebad7d5"
   expect_is(p, "function")
   msg <- capture_messages(
-    p(list(status = "running", version = id, output = list(stdout = "a"))))
+    p(list(status = "running", version = id, output = list("a"),
+           queue = list())))
   expect_equal(msg[1:3], c("\r", "a\n", "\r"))
   expect_match(msg[[4]], "running: 20190805-153610-eebad7d5")
 
   msg <- capture_messages(
-    p(list(status = "running", version = id, output = list(stdout = "a"))))
+    p(list(status = "running", version = id, output = list("a"))))
   expect_equal(length(msg), 2)
   expect_match(msg[[2]], "running: 20190805-153610-eebad7d5")
 
   msg <- capture_messages(
     p(list(status = "running", version = id,
-           output = list(stdout = c("a", "b", "c")))))
+           output = list("a", "b", "c"))))
   expect_equal(msg[2:4], c("\r", "b\nc\n", "\r"))
   expect_match(msg[[5]], "running: 20190805-153610-eebad7d5")
 })
@@ -41,13 +42,26 @@ test_that("progress - queued", {
   id <- "20190805-153610-eebad7d5"
   expect_is(p, "function")
   msg <- capture_messages(
-    p(list(status = "queued", version = id,
-           output = list(stdout =
-                           c("running:key1:name1", "queued:key2:name2")))))
+    p(list(status = "queued", version = id, output = list(),
+           queue = list(
+             list(
+               key = "key1",
+               status = "running",
+               name = "name1"
+             ),
+             list(
+               key = "key2",
+               status = "queued",
+               name = "name2"
+             )))))
   expect_equal(msg[[2]], "[-] (key)  0s queued (2): name1 < name2")
   msg <- capture_messages(
-    p(list(status = "queued", version = id,
-           output = list(stdout = c("running:key2:name2")))))
+    p(list(status = "queued", version = id, output = list(),
+           queue = list(list(
+             key = "key2",
+             status = "running",
+             name = "name2"
+           )))))
   expect_equal(msg[[3]], "[\\] (key)  0s queued (1): name2")
 })
 
@@ -100,14 +114,14 @@ test_that("cleanup", {
   client <- NULL
   ans <- list(status = "error",
               version = "id",
-              output = list(stderr = "stderr", stdout = "stdout"))
+              output = list("output"))
   out <- capture_output(
     expect_error(
       report_wait_cleanup("name", ans, FALSE, TRUE, FALSE, client),
       "Report has failed: see above for details"))
   expect_equal(out, trimws(format_output(ans$output)))
 
-  ans$status <- "killed"
+  ans$status <- "interrupted"
   out <- capture_output(
     expect_error(
       report_wait_cleanup("name", ans, FALSE, TRUE, FALSE, client),
@@ -116,7 +130,7 @@ test_that("cleanup", {
 
   expect_equal(
     report_wait_cleanup("name", ans, FALSE, FALSE, FALSE, client),
-    list(name = "name", id = "id", status = "killed", output = ans$output,
+    list(name = "name", id = "id", status = "interrupted", output = ans$output,
          url = NULL))
 })
 
@@ -129,7 +143,7 @@ test_that("cleanup - open url", {
                    list(url = list(www = "https://example.com/reports")))
   ans <- list(status = "success",
               version = "id",
-              output = list(stderr = "stderr", stdout = "stdout"))
+              output = list("output"))
 
   m <- mockery::mock()
   mockery::stub(report_wait_cleanup, "utils::browseURL", m)

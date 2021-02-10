@@ -90,7 +90,7 @@ report_wait_progress <- function(key, progress, force = FALSE) {
 
   fmt <- sprintf("[:spin] (%s) :elapsed :status", key)
   p <- progress::progress_bar$new(fmt, NA, show_after = 0, force = force)
-  prev_output <- list(stderr = NULL, stdout = NULL)
+  prev_output <- NULL
   w <- getOption("width", 80L)
 
   new <- function(now, prev) {
@@ -103,22 +103,22 @@ report_wait_progress <- function(key, progress, force = FALSE) {
 
   tick <- function(response, finish = FALSE) {
     state <- response$status
+    queue <- response$queue
     output <- response$output
     version <- response$version %||% "???"
 
     if (state == "queued") {
-      queue <- matrix(
-        unlist(strsplit(output$stdout, ":", fixed = TRUE)),
-        length(output$stdout), byrow = TRUE)
-      status <- trim_string(sprintf(
-        "queued (%d): %s", nrow(queue), paste(queue[, 3], collapse = " < ")),
-        w - 12L)
+      queued <- vcapply(queue, function(item) {
+        item$name
+      })
+      status <- sprintf("queued (%d): %s", length(queue),
+                        paste(queued, collapse = " < "))
     } else {
       status <- sprintf("%s: %s", state, version)
     }
 
-    if (state %in% c("running", "error", "success") && !is.null(output)) {
-      new_output <- Map(new, output, prev_output)
+    if (state != "queued" && !is.null(output)) {
+      new_output <- new(output, prev_output)
       if (any(lengths(new_output)) > 0L) {
         clear_progress_bar(p)
         message(format_output(new_output), appendLF = FALSE)
@@ -144,13 +144,14 @@ report_wait_cleanup <- function(name, ans, progress, stop_on_error,
     ans <- client$report_run_status(ans$key, TRUE)
   }
 
-  if (stop_on_error && ans$status %in% c("error", "killed")) {
+  if (stop_on_error && ans$status %in%
+      c("error", "orphan", "interrupted", "redirect", "missing")) {
     ## TODO: It would be super nice to get the full stack trace back
     ## here from orderly on error.  That should not be hard to do.
     if (!progress) {
       cat(format_output(ans$output))
     }
-    if (ans$status == "killed") {
+    if (ans$status == "interrupted") {
       stop("job killed by remote server", call. = FALSE)
     } else {
       stop("Report has failed: see above for details", call. = FALSE)

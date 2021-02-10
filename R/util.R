@@ -69,7 +69,7 @@ trim_string <- function (s, w, elipsis = " ...") {
 
 
 format_output <- function(output) {
-  paste(sprintf("%s\n", c(output$stderr, output$stdout)), collapse = "")
+  paste0(paste(output, collapse = "\n"), "\n")
 }
 
 
