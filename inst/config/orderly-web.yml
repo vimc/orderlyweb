@@ -19,7 +19,7 @@ orderly:
   image:
     repo: vimc
     name: orderly.server
-    tag: vimc-4192 
+    tag: master 
     worker_name: orderly.server
   initial:
     source: clone
@@ -30,7 +30,7 @@ web:
   image:
     repo: vimc
     name: orderly-web
-    tag: mrc-2165 
+    tag: master 
     migrate: orderlyweb-migrate
     admin: orderly-web-user-cli
   url: https://localhost
