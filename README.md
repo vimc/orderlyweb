@@ -25,7 +25,7 @@ To stop the server, use `orderly-web stop inst/config --volumes --kill`
 ```r
 # install.packages("drat")
 drat:::add("vimc")
-install.packages("orderly")
+install.packages("orderlyweb")
 ```
 
 ## License
