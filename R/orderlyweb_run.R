@@ -49,7 +49,7 @@ report_run_body <- function(parameters, ref, instance) {
   body <- list()
   if (!is.null(ref)) {
     assert_scalar_character(ref)
-    body$gitCommit <- ref
+    body[["gitCommit"]] <- ref
   }
   if (!is.null(instance)) {
     ## Instance can be single string
@@ -58,12 +58,12 @@ report_run_body <- function(parameters, ref, instance) {
       ## TODO: name "source" should not be hard coded and this
       ## default should depend on the particular orderly configuration
       ## see VIMC-4587
-      body$instances <- list(source = instance)
+      body[["instances"]] <- list(source = instance)
     } else if (is.list(instance)) {
-      body$instances <- instance
+      body[["instances"]] <- instance
     }
   }
-  body$params <- report_run_parameters(parameters)
+  body[["params"]] <- report_run_parameters(parameters)
   if (length(body) == 0) {
     body <- NULL
   }
