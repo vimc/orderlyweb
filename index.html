@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">orderlyweb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -55,7 +55,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/vimc/orderlyweb/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -84,7 +84,7 @@
 <div id="testing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#testing" class="anchor"></a>Testing</h3>
-<p>For end-to-end testing, we need a copy of orderlyweb running. This is most easily set up using the provided configuration (<a href="inst/config"><code>inst/config</code></a>) and running <code>orderly-web start inst/config</code> before running the tests. The test suite will make changes within the configuration and will rely on the existance of particular reports.</p>
+<p>For end-to-end testing, we need a copy of orderlyweb running. This is most easily set up using the provided configuration (<a href="inst/config"><code>inst/config</code></a>) and running <code>orderly-web start --pull inst/config</code> before running the tests. The test suite will make changes within the configuration and will rely on the existence of particular reports.</p>
 <p>To install <code>orderly-web</code> (the command line tool) use <code>pip3 install orderly-web</code></p>
 <p>A token is also needed to login with github; that can be found in the <code>vimc</code> vault as <code>secret/vimc-robot/vault-token</code> and should be available as the environment variable <code>ORDERLYWEB_TEST_TOKEN</code> (this is available on travis as an encrypted environment variable).</p>
 <p>To stop the server, use <code>orderly-web stop inst/config --volumes --kill</code></p>
@@ -96,7 +96,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("drat")</span>
 <span class="fu">drat</span><span class="fu">:::</span><span class="fu">add</span><span class="op">(</span><span class="st">"vimc"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"orderly"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"orderlyweb"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="license" class="section level2">
 <h2 class="hasAnchor">
