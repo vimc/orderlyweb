@@ -375,7 +375,7 @@ test_that("timeout without error", {
   res <- cl$report_run_wait(ans, timeout = 2, poll = 0, progress = FALSE,
                             stop_on_timeout = FALSE)
   expect_equal(res$status, "running")
-  res <- cl$report_run_wait(ans, timeout = 10, poll = 0, progress = FALSE,
+  res <- cl$report_run_wait(ans, timeout = 15, poll = 0, progress = FALSE,
                             stop_on_timeout = FALSE)
   expect_equal(res$status, "success")
 })

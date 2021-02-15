@@ -33,22 +33,41 @@ report_run_wait <- function(path, name, key, client, timeout, poll, open,
 }
 
 
-report_run_query <- function(ref, timeout, instance) {
-  query <- list()
-  if (!is.null(ref)) {
-    query$ref <- ref
-  }
+report_run_query <- function(timeout) {
   if (!is.null(timeout)) {
     assert_scalar_integer(timeout)
-    query$timeout <- as.character(timeout)
-  }
-  if (!is.null(instance)) {
-    query$instance <- instance
-  }
-  if (length(query) == 0L) {
+    query <- list(
+      timeout = as.character(timeout)
+    )
+  } else {
     query <- NULL
   }
   query
+}
+
+report_run_body <- function(parameters, ref, instance) {
+  body <- list()
+  if (!is.null(ref)) {
+    assert_scalar_character(ref)
+    body$gitCommit <- ref
+  }
+  if (!is.null(instance)) {
+    ## Instance can be single string
+    ## Or named of instances e.g. list(source = x, annex = f)
+    if (is.character(instance)) {
+      ## TODO: name "source" should not be hard coded and this
+      ## default should depend on the particular orderly configuration
+      ## see VIMC-4587
+      body$instances <- list(source = instance)
+    } else if (is.list(instance)) {
+      body$instances <- instance
+    }
+  }
+  body$params <- report_run_parameters(parameters)
+  if (length(body) == 0) {
+    body <- NULL
+  }
+  body
 }
 
 

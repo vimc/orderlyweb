@@ -68,22 +68,10 @@ test_that("progress - queued", {
 
 test_that("query", {
   expect_null(
-    report_run_query(NULL, NULL, NULL))
+    report_run_query(NULL))
   expect_equal(
-    report_run_query("ref", NULL, NULL),
-    list(ref = "ref"))
-  expect_equal(
-    report_run_query("ref", NULL, NULL),
-    list(ref = "ref"))
-  expect_equal(
-    report_run_query("ref", 1, NULL),
-    list(ref = "ref", timeout = "1"))
-  expect_equal(
-    report_run_query(NULL, 1, NULL),
+    report_run_query(1),
     list(timeout = "1"))
-  expect_equal(
-    report_run_query(NULL, NULL, "instance"),
-    list(instance = "instance"))
 })
 
 
@@ -107,6 +95,21 @@ test_that("parameters", {
   expect_error(report_run_parameters(list(a = 1:2, b = 2)),
                "All parameters must be scalar (check 'a')",
                fixed = TRUE)
+})
+
+test_that("body", {
+  expect_null(report_run_body(NULL, NULL, NULL))
+  expect_equal(report_run_body(list(a = 1, b = 2), NULL, NULL),
+               list(
+                  params = report_run_parameters(list(a = 1, b = 2))))
+  expect_equal(report_run_body(NULL, "12345", NULL),
+               list(gitCommit = "12345"))
+  expect_equal(report_run_body(NULL, NULL, "science"),
+               list(instances = list(source = "science")))
+  expect_equal(report_run_body(NULL, NULL, list(source = "science",
+                                                annex = "annex")),
+               list(instances = list(source = "science",
+                                     annex = "annex")))
 })
 
 
