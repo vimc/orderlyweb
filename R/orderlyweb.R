@@ -133,14 +133,14 @@ R6_orderlyweb <- R6::R6Class(
     },
 
     report_run = function(name, parameters = NULL, ref = NULL,
-                          update = TRUE, timeout = NULL, wait = Inf,
+                          timeout = NULL, wait = Inf,
                           poll = 0.5, open = FALSE,
                           stop_on_error = FALSE, stop_on_timeout = TRUE,
                           progress = TRUE, instance = NULL) {
-      query <- report_run_query(ref, update, timeout, instance)
-      parameters <- report_run_parameters(parameters)
+      query <- report_run_query(timeout)
+      body <- report_run_body(parameters, ref, instance)
       res <- self$api_client$POST(sprintf("/reports/%s/run/", name),
-                                  query = query, body = parameters,
+                                  query = query, body = body,
                                   encode = "json")
       class(res) <- "orderlyweb_run"
 

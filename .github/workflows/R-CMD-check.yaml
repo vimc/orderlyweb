@@ -46,7 +46,7 @@ jobs:
       - name: Set up orderly-web
         run: |
           pip3 install orderly-web
-          orderly-web start inst/config
+          orderly-web start --pull inst/config
 
       - uses: r-lib/actions/setup-pandoc@v1
 

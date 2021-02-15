@@ -12,7 +12,7 @@ The R package [`orderly`](https://github.com/vimc/orderly) has a [web interface 
 
 ### Testing
 
-For end-to-end testing, we need a copy of orderlyweb running.  This is most easily set up using the provided configuration ([`inst/config`](inst/config)) and running `orderly-web start inst/config` before running the tests.  The test suite will make changes within the configuration and will rely on the existance of particular reports.
+For end-to-end testing, we need a copy of orderlyweb running.  This is most easily set up using the provided configuration ([`inst/config`](inst/config)) and running `orderly-web start --pull inst/config` before running the tests.  The test suite will make changes within the configuration and will rely on the existence of particular reports.
 
 To install `orderly-web` (the command line tool) use `pip3 install orderly-web`
 
@@ -25,7 +25,7 @@ To stop the server, use `orderly-web stop inst/config --volumes --kill`
 ```r
 # install.packages("drat")
 drat:::add("vimc")
-install.packages("orderly")
+install.packages("orderlyweb")
 ```
 
 ## License

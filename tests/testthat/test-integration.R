@@ -269,10 +269,9 @@ test_that("run: simple", {
   expect_equal(names(res), c("name", "id", "status", "output", "url"))
   expect_equal(res$name, "minimal")
   expect_equal(res$status, "success")
-  expect_setequal(names(res$output), c("stderr", "stdout"))
   expect_equal(res$url,
                paste0("http://localhost:8888/report/minimal/", res$id))
-  expect_match(res$output$stderr, "[ name       ]  minimal",
+  expect_match(res$output, "[ name       ]  minimal",
                fixed = TRUE, all = FALSE)
 })
 
@@ -284,10 +283,9 @@ test_that("run: simple", {
   expect_equal(names(res), c("name", "id", "status", "output", "url"))
   expect_equal(res$name, "minimal")
   expect_equal(res$status, "success")
-  expect_setequal(names(res$output), c("stderr", "stdout"))
   expect_equal(res$url,
                paste0("http://localhost:8888/report/minimal/", res$id))
-  expect_match(res$output$stderr, "[ name       ]  minimal",
+  expect_match(res$output, "[ name       ]  minimal",
                fixed = TRUE, all = FALSE)
 })
 
@@ -323,7 +321,7 @@ test_that("run: pass parameters", {
   res <- cl$report_run_wait(ans, progress = FALSE)
   expect_equal(res$name, "other")
 
-  expect_match(res$output$stderr, "nmin: 0.5", all = FALSE, fixed = TRUE)
+  expect_match(res$output, "nmin: 0.5", all = FALSE, fixed = TRUE)
 
   msg <- capture_messages(cl$report_run_wait(ans, progress = TRUE))
   expect_equal(msg[[1]],
@@ -335,19 +333,19 @@ test_that("run: instance", {
   res <- cl$report_run("minimal", poll = 0.1, instance = "other",
                        progress = FALSE)
   expect_equal(res$status, "error")
-  expect_true("Error: no such table: thing" %in% res$output$stderr)
+  expect_true("Error: no such table: thing" %in% res$output)
 
   res <- cl$report_run("minimal", poll = 0.1, instance = "missing",
                        progress = FALSE)
   expect_equal(res$status, "error")
   expect_true("Error: Invalid instance 'missing' for database 'source'" %in%
-                res$output$stderr)
+                res$output)
 
   res <- cl$report_run("minimal", poll = 0.1, instance = "default",
                        progress = FALSE)
   expect_equal(names(res), c("name", "id", "status", "output", "url"))
   expect_equal(res$status, "success")
-  expect_match(res$output$stderr, "[ name       ]  minimal",
+  expect_match(res$output, "[ name       ]  minimal",
                fixed = TRUE, all = FALSE)
 })
 
@@ -377,7 +375,7 @@ test_that("timeout without error", {
   res <- cl$report_run_wait(ans, timeout = 2, poll = 0, progress = FALSE,
                             stop_on_timeout = FALSE)
   expect_equal(res$status, "running")
-  res <- cl$report_run_wait(ans, timeout = 10, poll = 0, progress = FALSE,
+  res <- cl$report_run_wait(ans, timeout = 15, poll = 0, progress = FALSE,
                             stop_on_timeout = FALSE)
   expect_equal(res$status, "success")
 })

@@ -1,3 +1,10 @@
+# orderlyweb 0.1.10
+
+* Update to work with orderly.server v0.2.6
+   * Report run status now returns queue info in a separate section
+   * Report run output now returns 1 list
+   * Update arg to report run has been removed
+
 # orderlyweb 0.1.9
 
 * Add support for bundles (VIMC-4453)
