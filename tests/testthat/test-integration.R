@@ -425,7 +425,7 @@ test_that("can pass instance to bundle pack", {
 test_that("queue status", {
   cl <- test_orderlyweb()
   run <- cl$report_run("slow3", open = FALSE, progress = FALSE, wait = FALSE)
-  Sys.sleep(1) ## Ensure report gets started
+  Sys.sleep(2) ## Ensure report gets started
   res <- cl$queue_status()
   expect_length(res$tasks, 1)
   expect_equal(res$tasks[[1]]$name, "slow3")
