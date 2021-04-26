@@ -171,3 +171,19 @@ test_that("bundle high level interface", {
 
   expect_true(ans$id %in% remote$list_versions("minimal"))
 })
+
+
+test_that("queue status", {
+  skip_if_no_orderlyweb_server()
+  token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  remote <- orderlyweb_remote(host = "localhost", port = 8888,
+                              token = token, https = FALSE)
+  out <- remote$run("slow3", open = FALSE, progress = FALSE, wait = FALSE)
+  Sys.sleep(2) ## Ensure report gets started
+  res <- remote$queue_status()
+  expect_length(res$tasks, 1)
+  expect_equal(res$tasks[[1]]$name, "slow3")
+  expect_true(!is.null(res$tasks[[1]]$version))
+  expect_equal(res$tasks[[1]]$key, out$key)
+  expect_equal(res$tasks[[1]]$status, "running")
+})

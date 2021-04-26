@@ -420,3 +420,16 @@ test_that("can pass instance to bundle pack", {
     readRDS(file.path(tmp, dir(tmp), "meta", "info.rds"))$instance,
     "default")
 })
+
+
+test_that("queue status", {
+  cl <- test_orderlyweb()
+  run <- cl$report_run("slow3", open = FALSE, progress = FALSE, wait = FALSE)
+  Sys.sleep(2) ## Ensure report gets started
+  res <- cl$queue_status()
+  expect_length(res$tasks, 1)
+  expect_equal(res$tasks[[1]]$name, "slow3")
+  expect_true(!is.null(res$tasks[[1]]$version))
+  expect_equal(res$tasks[[1]]$key, run$key)
+  expect_equal(res$tasks[[1]]$status, "running")
+})

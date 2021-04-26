@@ -72,5 +72,9 @@ R6_orderlyweb_remote <- R6::R6Class(
 
     bundle_import = function(path, progress = TRUE) {
       private$client$bundle_import(path, progress)
+    },
+
+    queue_status = function() {
+      private$client$queue_status()
     }
   ))

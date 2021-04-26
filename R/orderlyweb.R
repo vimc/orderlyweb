@@ -248,6 +248,10 @@ R6_orderlyweb <- R6::R6Class(
 
     git_fetch = function(client = NULL) {
       self$api_client$POST("/reports/git/fetch/")
+    },
+
+    queue_status = function() {
+      self$api_client$GET("/queue/status/")
     }
   ))
 
