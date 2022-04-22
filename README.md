@@ -16,7 +16,7 @@ For end-to-end testing, we need a copy of orderlyweb running.  This is most easi
 
 To install `orderly-web` (the command line tool) use `pip3 install orderly-web`
 
-A token is also needed to login with github; that can be found in the `vimc` vault as `secret/vimc-robot/vault-token` and should be available as the environment variable `ORDERLYWEB_TEST_TOKEN` (this is available on travis as an encrypted environment variable).
+A token is also needed to login with github; that can be found in the `mrc-ide` vault as `secret/vimc-robot/orderlyweb-test-token` and should be available as the environment variable `ORDERLYWEB_TEST_TOKEN` (this is available on github actions as an encrypted environment variable).
 
 To stop the server, use `orderly-web stop inst/config --volumes --kill`
 
