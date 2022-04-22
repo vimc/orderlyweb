@@ -200,16 +200,3 @@ test_that("can kill report run", {
   expect_true(res$killed)
   expect_null(res$message)
 })
-
-test_that("failed to kill report returns message", {
-  skip_if_no_orderlyweb_server()
-  token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
-  remote <- orderlyweb_remote(host = "localhost", port = 8888,
-                              token = token, https = FALSE)
-  out <- remote$run("minimal", open = FALSE, progress = FALSE, wait = FALSE)
-  Sys.sleep(2) ## Ensure report gets started and completed
-
-  res <- remote$kill(out)
-  expect_false(res$killed)
-  expect_match(res$message, "Failed to kill")
-})

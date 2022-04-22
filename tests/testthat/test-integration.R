@@ -442,3 +442,13 @@ test_that("report can be killed", {
   expect_true(res$killed)
   expect_null(res$message)
 })
+
+test_that("failed to kill report returns message", {
+  cl <- test_orderlyweb()
+  out <- cl$report_run("minimal", wait = FALSE)
+  output <- cl$report_run_wait(out, progress = FALSE)
+
+  res <- remote$kill(out)
+  expect_false(res$killed)
+  expect_match(res$message, "Failed to kill")
+})
