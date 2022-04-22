@@ -93,6 +93,10 @@ R6_orderlyweb_api_client <- R6::R6Class(
       self$request(httr::POST, ...)
     },
 
+    DELETE = function(...) {
+      self$request(httr::DELETE, ...)
+    },
+
     request = function(verb, path, ..., download = NULL) {
       self$authorise()
       if (!grepl("^/", path)) {
