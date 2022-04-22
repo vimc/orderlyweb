@@ -448,7 +448,7 @@ test_that("failed to kill report returns message", {
   out <- cl$report_run("minimal", wait = FALSE)
   output <- cl$report_run_wait(out, progress = FALSE)
 
-  res <- remote$kill(out)
+  res <- cl$report_kill(out)
   expect_false(res$killed)
   expect_match(res$message, "Failed to kill")
 })
