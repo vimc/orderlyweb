@@ -1,3 +1,7 @@
+# orderlyweb 0.1.13
+
+* Expose report kill endpoint
+
 # orderlyweb 0.1.10
 
 * Update to work with orderly.server v0.2.6
