@@ -177,6 +177,14 @@ R6_orderlyweb <- R6::R6Class(
                       progress = progress)
     },
 
+    report_kill = function(key) {
+      if (inherits(key, "orderlyweb_run")) {
+        key <- key$key
+      }
+      path <- sprintf("/reports/%s/kill/", key)
+      self$api_client$DELETE(path)
+    },
+
     data_download = function(hash, csv = FALSE, dest = NULL,
                              progress = TRUE) {
       path <- sprintf("/data/%s/%s", if (csv) "csv" else "rds", hash)

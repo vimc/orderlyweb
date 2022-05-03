@@ -433,3 +433,22 @@ test_that("queue status", {
   expect_equal(res$tasks[[1]]$key, run$key)
   expect_equal(res$tasks[[1]]$status, "running")
 })
+
+test_that("report can be killed", {
+  cl <- test_orderlyweb()
+  ans <- cl$report_run("slow10", wait = FALSE)
+  Sys.sleep(2) ## Ensure report gets started
+  res <- cl$report_kill(ans)
+  expect_true(res$killed)
+  expect_null(res$message)
+})
+
+test_that("failed to kill report returns message", {
+  cl <- test_orderlyweb()
+  out <- cl$report_run("minimal", wait = FALSE)
+  output <- cl$report_run_wait(out, progress = FALSE)
+
+  res <- cl$report_kill(out)
+  expect_false(res$killed)
+  expect_match(res$message, "Failed to kill")
+})

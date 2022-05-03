@@ -187,3 +187,16 @@ test_that("queue status", {
   expect_equal(res$tasks[[1]]$key, out$key)
   expect_equal(res$tasks[[1]]$status, "running")
 })
+
+test_that("can kill report run", {
+  skip_if_no_orderlyweb_server()
+  token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
+  remote <- orderlyweb_remote(host = "localhost", port = 8888,
+                              token = token, https = FALSE)
+  out <- remote$run("slow3", open = FALSE, progress = FALSE, wait = FALSE)
+  Sys.sleep(2) ## Ensure report gets started
+
+  res <- remote$kill(out)
+  expect_true(res$killed)
+  expect_null(res$message)
+})

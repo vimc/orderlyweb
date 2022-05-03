@@ -65,6 +65,10 @@ R6_orderlyweb_remote <- R6::R6Class(
                                 progress = progress, instance = instance)
     },
 
+    kill = function(key) {
+      private$client$report_kill(key)
+    },
+
     bundle_pack = function(name, parameters = NULL, instance = NULL,
                            progress = TRUE) {
       private$client$bundle_pack(name, parameters, instance, progress)
