@@ -1,3 +1,7 @@
+# orderlyweb 0.1.14
+
+* Update report run wait handling to use latest queue status format (orderly.server v0.3.25)
+
 # orderlyweb 0.1.13
 
 * Expose report kill endpoint

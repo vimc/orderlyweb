@@ -182,7 +182,7 @@ test_that("queue status", {
   Sys.sleep(2) ## Ensure report gets started
   res <- remote$queue_status()
   expect_length(res$tasks, 1)
-  expect_equal(res$tasks[[1]]$name, "slow3")
+  expect_equal(res$tasks[[1]]$inputs$name, "slow3")
   expect_true(!is.null(res$tasks[[1]]$version))
   expect_equal(res$tasks[[1]]$key, out$key)
   expect_equal(res$tasks[[1]]$status, "running")

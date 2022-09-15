@@ -125,7 +125,7 @@ report_wait_progress <- function(key, progress, force = FALSE) {
 
     if (state == "queued") {
       queued <- vcapply(queue, function(item) {
-        item$name
+        item$inputs$name
       })
       status <- sprintf("queued (%d): %s", length(queue),
                         paste(queued, collapse = " < "))

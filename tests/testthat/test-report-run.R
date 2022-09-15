@@ -47,12 +47,26 @@ test_that("progress - queued", {
              list(
                key = "key1",
                status = "running",
-               name = "name1"
+               version = "id1",
+               inputs = list(
+                 name = "name1",
+                 params = NULL,
+                 ref = NULL,
+                 instance = NULL,
+                 changelog = NULL
+               )
              ),
              list(
                key = "key2",
                status = "queued",
-               name = "name2"
+               version = NULL,
+               inputs = list(
+                 name = "name2",
+                 params = list(time = 10, poll = 1),
+                 ref = "1234",
+                 instance = "production",
+                 changelog = "[internal] changelog message"
+               )
              )))))
   expect_equal(msg[[2]], "[-] (key)  0s queued (2): name1 < name2")
   msg <- capture_messages(
@@ -60,7 +74,14 @@ test_that("progress - queued", {
            queue = list(list(
              key = "key2",
              status = "running",
-             name = "name2"
+             version = "123",
+             inputs = list(
+               name = "name2",
+               params = list(time = 10, poll = 1),
+               ref = "1234",
+               instance = "production",
+               changelog = "[internal] changelog message"
+             )
            )))))
   expect_equal(msg[[3]], "[\\] (key)  0s queued (1): name2")
 })
