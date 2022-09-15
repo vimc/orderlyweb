@@ -18,7 +18,7 @@ this within an orderly_config.yml configuration.'><!-- mathjax --><script src="h
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">orderlyweb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.14</span>
       </span>
     </div>
 
@@ -55,16 +55,20 @@ this within an <code>orderly_config.yml</code> configuration.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">orderlyweb_remote</span><span class="op">(</span><span class="va">host</span>, <span class="va">port</span>, <span class="va">token</span>, https <span class="op">=</span> <span class="cn">TRUE</span>, prefix <span class="op">=</span> <span class="cn">NULL</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">orderlyweb_remote</span><span class="op">(</span><span class="va">host</span>, <span class="va">port</span>, <span class="va">token</span>, https <span class="op">=</span> <span class="cn">TRUE</span>, prefix <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>host</dt>
 <dd><p>Fully qualified hostname for the OrderlyWeb instance</p></dd>
+
+
 <dt>port</dt>
 <dd><p>Port to use</p></dd>
+
+
 <dt>token</dt>
 <dd><p>Your application token for authentication.  The
 appropriate value here will depend on the authentication support
@@ -72,25 +76,32 @@ that is built into the OrderlyWeb server that you are
 communicating with.  Provide the token directly (as a string) or
 provide a callback function that takes no arguments and returns
 token.</p></dd>
+
+
 <dt>https</dt>
 <dd><p>Optional logical, indicating if this is an https
 connection - this should be <code>TRUE</code> in all production
 settings or credentials will be sent in the clear!</p></dd>
+
+
 <dt>prefix</dt>
 <dd><p>A prefix, if your OrderlyWeb server is mounted at a
 path within some larger website.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>A friendly name for the server (e.g, "production" or
 "testing") which may be printed when using the remote, or when
 authenticating.  If not provided then a name will be constructed
 from <code>host</code>, <code>port</code> and (if provided)
 <code>prefix</code>.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">remote</span> <span class="op">&lt;-</span> <span class="fu">orderlyweb</span><span class="fu">::</span><span class="fu">orderlyweb_remote</span><span class="op">(</span><span class="st">"example.com"</span>, <span class="fl">443</span>, <span class="st">"mytoken"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">remote</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">remote</span> <span class="op">&lt;-</span> <span class="fu">orderlyweb</span><span class="fu">::</span><span class="fu">orderlyweb_remote</span><span class="op">(</span><span class="st">"example.com"</span>, <span class="fl">443</span>, <span class="st">"mytoken"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">remote</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;orderlyweb_remote&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Public:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     bundle_import: function (path, progress = TRUE) </span>
@@ -121,7 +132,7 @@ from <code>host</code>, <code>port</code> and (if provided)
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
