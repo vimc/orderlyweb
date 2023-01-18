@@ -41,7 +41,7 @@
 ##'                                         token = "mytoken")
 ##' cl$is_authorised()
 orderlyweb_api_client <- function(host, port, token, name = NULL,
-                                  https = TRUE, prefix = NULL, api_version = 1,
+                                  https = TRUE, prefix = NULL, api_version = 2,
                                   insecure = FALSE, verbose = FALSE) {
   R6_orderlyweb_api_client$new(host, port, token, name = name,
                                https = https, prefix = prefix,
