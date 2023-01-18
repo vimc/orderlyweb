@@ -110,7 +110,7 @@ R6_orderlyweb_api_client <- R6::R6Class(
 
       r <- do_request()
       if (httr::status_code(r) == 401L) {
-        errors <- vcapply(response_to_json(r)$errors, "[[", "code")
+        errors <- vcapply(response_to_json(r)$errors, "[[", "error")
         if ("bearer-token-invalid" %in% errors) {
           self$authorise(TRUE)
           r <- do_request()
@@ -149,10 +149,10 @@ orderlyweb_api_client_name <- function(name, host, port, prefix) {
 ## For our current systems we have:
 ##
 ## We have apis at:
-##   https://ebola2018.dide.ic.ac.uk/api/v1/
-##   https://support.montagu.dide.ic.ac.uk:10443/reports/api/v1/
+##   https://ebola2018.dide.ic.ac.uk/api/v2/
+##   https://support.montagu.dide.ic.ac.uk:10443/reports/api/v2/
 ##
-## <protocol>://<host>:<port><prefix>/api/v1
+## <protocol>://<host>:<port><prefix>/api/v2
 orderlyweb_api_client_url <- function(host, port, https, prefix,
                                       api_version) {
   assert_scalar_character(host)
@@ -189,7 +189,7 @@ orderlyweb_api_client_response <- function(r, download) {
   if (code >= 300) {
     if (is_json_response(r)) {
       res <- response_to_json(r)
-      stop(orderlyweb_api_error(res$errors[[1]]$message, code, res$errors))
+      stop(orderlyweb_api_error(res$errors[[1]]$detail, code, res$errors))
     }
     ## This should never really be used - it's just for when things go
     ## really pear shaped.

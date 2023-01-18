@@ -271,7 +271,7 @@ report_versions_return <- function(res, error_if_missing) {
   } else if (allow_missing &&
              inherits(res, "orderlyweb_api_error") &&
              length(res$errors) == 1L &&
-             res$errors[[1]]$code == "unknown-report") {
+             res$errors[[1]]$error == "unknown-report") {
     return(character(0))
   } else {
     stop(res)

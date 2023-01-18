@@ -48,17 +48,17 @@ test_that("API client URL can use prefix, stripping slashes", {
   expect_equal(
     orderlyweb_api_client_url("host", 443, TRUE, "prefix", 1),
     list(www = "https://host:443/prefix",
-         api = "https://host:443/prefix/api/v1"))
+         api = "https://host:443/prefix/api/v2"))
   expect_equal(
     orderlyweb_api_client_url("host", 443, TRUE, "/prefix/", 1),
     list(www = "https://host:443/prefix",
-         api = "https://host:443/prefix/api/v1"))
+         api = "https://host:443/prefix/api/v2"))
 })
 
 
 test_that("API client URL ignores empty prefix", {
   cmp <- list(www = "https://host:443",
-              api = "https://host:443/api/v1")
+              api = "https://host:443/api/v2")
   expect_equal(
     orderlyweb_api_client_url("host", 443, TRUE, "", 1), cmp)
   expect_equal(
