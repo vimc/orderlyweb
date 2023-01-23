@@ -1,6 +1,6 @@
 Package: orderlyweb
 Title: Orderly Support for 'OrderlyWeb'
-Version: 0.1.14
+Version: 0.1.15
 Authors@R:
     c(person(given = "Rich",
              family = "FitzJohn",
