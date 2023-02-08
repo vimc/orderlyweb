@@ -30,7 +30,7 @@ web:
   image:
     repo: vimc
     name: orderly-web
-    tag: master 
+    tag: master
     migrate: orderlyweb-migrate
     admin: orderly-web-user-cli
   url: https://localhost

@@ -5,7 +5,7 @@
 \title{Create a low-level OrderlyWeb client}
 \usage{
 orderlyweb_api_client(host, port, token, name = NULL, https = TRUE,
-  prefix = NULL, api_version = 1, insecure = FALSE,
+  prefix = NULL, api_version = 2, insecure = FALSE,
   verbose = FALSE)
 }
 \arguments{
@@ -34,7 +34,7 @@ settings or credentials will be sent in the clear!}
 path within some larger website.}
 
 \item{api_version}{The API version to request - this should be
-left as 1.}
+left as 2.}
 
 \item{insecure}{Avoid SSL certificate testing - this is completely
 insecure (as bad as http) and exists only for testing.}

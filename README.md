@@ -28,6 +28,8 @@ drat:::add("vimc")
 install.packages("orderlyweb")
 ```
 
+If upgrading, make sure to open a new session for the changes to take effect.
+
 ## License
 
 MIT © Imperial College of Science, Technology and Medicine
