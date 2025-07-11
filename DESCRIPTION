@@ -8,7 +8,7 @@ Authors@R:
              email = "rich.fitzjohn@gmail.com"),
       person("Imperial College of Science, Technology and Medicine",
              role = "cph"))
-Description: Client for 'OrderlyWeb' for use from the 'orderly'
+Description: Client for 'OrderlyWeb' for use from the 'orderly1'
     package.  Allows downloading of reports, running remote reports
     and other interaction with the remote report repository.
 Imports:
@@ -16,7 +16,7 @@ Imports:
     gert,
     httr,
     jsonlite,
-    orderly (>= 1.2.19),
+    orderly1 (>= 1.2.19),
     progress,
     zip
 Suggests:
@@ -29,4 +29,4 @@ BugReports: https://github.com/vimc/orderlyweb/issues
 Encoding: UTF-8
 LazyData: true
 Remotes:
-    vimc/orderly
+    vimc/orderly1

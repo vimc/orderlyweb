@@ -8,7 +8,7 @@
 
 > R client support for OrderlyWeb
 
-The R package [`orderly`](https://github.com/vimc/orderly) has a [web interface called OrderlyWeb](https://github.com/vimc/orderly-web); this package provides support for `orderly` to interact with `OrderlyWeb` in order to download reports from a remote server and run them remotely
+The R package [`orderly1`](https://github.com/vimc/orderly1) has a [web interface called OrderlyWeb](https://github.com/vimc/orderly-web); this package provides support for `orderly1` to interact with `OrderlyWeb` in order to download reports from a remote server and run them remotely
 
 ### Testing
 
