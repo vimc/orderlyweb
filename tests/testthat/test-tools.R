@@ -2,9 +2,9 @@ context("tools")
 
 test_that("unpack archive", {
   testthat::skip_on_cran()
-  path <- orderly::orderly_example("minimal")
-  id <- orderly::orderly_run("example", root = path, echo = FALSE)
-  p <- orderly::orderly_commit(id, root = path)
+  path <- orderly1::orderly_example("minimal")
+  id <- orderly1::orderly_run("example", root = path, echo = FALSE)
+  p <- orderly1::orderly_commit(id, root = path)
 
   zip <- zip_dir(p)
 
@@ -43,7 +43,7 @@ test_that("unpack failure: not an orderly archive", {
 
 test_that("unpack failure: not expected id", {
   testthat::skip_on_cran()
-  id <- orderly:::new_report_id()
+  id <- orderly1:::new_report_id()
   tmp <- file.path(tempfile(), id)
   dir.create(tmp, FALSE, TRUE)
   dir.create(file.path(tmp, "orderly.yml"))
@@ -56,7 +56,7 @@ test_that("unpack failure: not expected id", {
 
 test_that("unpack failure: missing files", {
   testthat::skip_on_cran()
-  id <- orderly:::new_report_id()
+  id <- orderly1:::new_report_id()
   tmp <- file.path(tempfile(), id)
   dir.create(tmp, FALSE, TRUE)
   dir.create(file.path(tmp, "orderly.yml"))

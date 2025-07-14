@@ -7,7 +7,7 @@ test_that("create", {
   remote <- orderlyweb_remote(host = "localhost", port = 8888,
                               token = token, https = FALSE, name = "remote")
   expect_is(remote, "orderlyweb_remote")
-  expect_true(orderly:::implements_remote(remote))
+  expect_true(orderly1:::implements_remote(remote))
   expect_equal(remote$name, "remote")
 })
 
@@ -61,17 +61,17 @@ test_that("pull", {
   token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
   remote <- orderlyweb_remote(host = "localhost", port = 8888,
                               token = token, https = FALSE)
-  dest <- orderly::orderly_example("demo")
+  dest <- orderly1::orderly_example("demo")
   v <- max(remote$list_versions("minimal"))
 
   ## Directly pull and see the report:
   path <- remote$pull("minimal", v, FALSE)
   expect_true("orderly_run.rds" %in% dir(path))
-  expect_equal(nrow(orderly::orderly_list_archive(root = dest)), 0)
+  expect_equal(nrow(orderly1::orderly_list_archive(root = dest)), 0)
 
   ## Pull into the archive
-  orderly::orderly_pull_archive("minimal", v, dest, remote = remote)
-  res <- orderly::orderly_list_archive(root = dest)
+  orderly1::orderly_pull_archive("minimal", v, dest, remote = remote)
+  res <- orderly1::orderly_list_archive(root = dest)
   expect_equal(res, data_frame(name = "minimal", id = v))
 })
 
@@ -81,7 +81,7 @@ test_that("metadata", {
   token <- Sys.getenv("ORDERLYWEB_TEST_TOKEN")
   remote <- orderlyweb_remote(host = "localhost", port = 8888,
                               token = token, https = FALSE)
-  dest <- orderly::orderly_example("demo")
+  dest <- orderly1::orderly_example("demo")
   v <- max(remote$list_versions("minimal"))
 
   path <- remote$pull("minimal", v, FALSE)
@@ -151,7 +151,7 @@ test_that("bundle interface", {
                               token = token, https = FALSE)
 
   res <- remote$bundle_pack("minimal", progress = FALSE)
-  ans <- orderly::orderly_bundle_run(res, echo = FALSE)
+  ans <- orderly1::orderly_bundle_run(res, echo = FALSE)
   expect_true(remote$bundle_import(ans$path, progress = FALSE))
   expect_true(ans$id %in% remote$list_versions("minimal"))
 })
@@ -164,10 +164,10 @@ test_that("bundle high level interface", {
                               token = token, https = FALSE)
 
   capture.output(
-    res <- orderly::orderly_bundle_pack_remote("minimal", remote = remote))
-  ans <- orderly::orderly_bundle_run(res, echo = FALSE)
+    res <- orderly1::orderly_bundle_pack_remote("minimal", remote = remote))
+  ans <- orderly1::orderly_bundle_run(res, echo = FALSE)
   capture.output(
-    res <- orderly::orderly_bundle_import_remote(ans$path, remote = remote))
+    res <- orderly1::orderly_bundle_import_remote(ans$path, remote = remote))
 
   expect_true(ans$id %in% remote$list_versions("minimal"))
 })

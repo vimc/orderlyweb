@@ -388,7 +388,7 @@ test_that("can pack a bundle", {
   expect_equal(dirname(res), tempdir())
   expect_match(basename(res), "^[0-9]{8}-[0-9]{6}-[[:xdigit:]]{8}\\.zip$")
 
-  ans <- orderly::orderly_bundle_run(res, echo = FALSE)
+  ans <- orderly1::orderly_bundle_run(res, echo = FALSE)
   expect_equal(ans$id, sub("\\.zip$", "", basename(res)))
   expect_false(ans$id %in% cl$report_versions("minimal"))
 
