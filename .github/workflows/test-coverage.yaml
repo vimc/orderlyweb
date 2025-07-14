@@ -28,7 +28,6 @@ jobs:
           python-version: 3.11
 
       - name: Set up orderly-web
-        if: runner.os != 'Windows'
         run: |
           pip3 install constellation
           pip3 install git+https://github.com/vimc/orderly-web-deploy.git
